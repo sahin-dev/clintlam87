@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ShoppingCartIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
 import { Card } from '../../components/ui/Card';

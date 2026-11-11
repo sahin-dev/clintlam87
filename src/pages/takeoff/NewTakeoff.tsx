@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   CheckIcon,
@@ -32,6 +32,14 @@ import { ProcessingStage, SheetDiscipline, ValidationCheck } from '../../types/t
  * sheets were classified, then watch the analysis actually work.
  */
 type Phase = 'select' | 'validate' | 'classify' | 'running' | 'failed';
+
+const PHASE_LABELS: Record<Phase, string> = {
+  select: 'Drawing set',
+  validate: 'Validation',
+  classify: 'Classification',
+  running: 'AI analysis',
+  failed: 'AI analysis'
+};
 
 const STAGES: Omit<ProcessingStage, 'state'>[] = [
 { id: 'files', label: 'File processing', detail: 'Rasterising sheets at 300 dpi' },
@@ -126,7 +134,7 @@ export function NewTakeoff() {
                 {done ? <CheckIcon className="h-3 w-3" strokeWidth={3} /> : i + 1}
               </span>
               <span className={`text-[12px] font-bold ${active || done ? 'text-ink-900' : 'text-ink-400'}`}>
-                {{ select: 'Drawing set', validate: 'Validation', classify: 'Classification', running: 'AI analysis' }[p]}
+                {PHASE_LABELS[p]}
               </span>
             </li>);
 
@@ -136,7 +144,7 @@ export function NewTakeoff() {
       {phase === 'select' &&
       <div className="space-y-5">
           <Panel className="overflow-hidden">
-            <TitleBlock label="Drawing set" title="What should the model read?" reference="SM VISION 2.4" />
+            <TitleBlock label="Drawing set" title="What should the model read?" reference="SM Vision 2.4" />
             <div className="space-y-5 p-4">
               <Select
               label="Project"
@@ -253,7 +261,7 @@ export function NewTakeoff() {
             <TitleBlock
             label="Pre-flight validation"
             title={blocked ? 'Drawing set cannot be analysed' : 'Drawing set validated'}
-            reference={`${selectedPlan?.sheets ?? 0} SHEETS`} />
+            reference={`${selectedPlan?.sheets ?? 0} sheets`} />
           
             <div className="grid grid-cols-2 gap-4 px-4 py-3.5 sm:grid-cols-4">
               <Measured label="Sheets" value={String(selectedPlan?.sheets ?? 0)} size="sm" />

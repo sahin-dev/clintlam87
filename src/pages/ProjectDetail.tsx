@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   ChevronLeftIcon,
@@ -11,8 +11,8 @@ import {
   TruckIcon,
   UploadIcon } from
 'lucide-react';
-import { Card, DataRow, Metric, Progress, SectionHeader } from '../components/ui/Card';
-import { Badge, StatusBadge } from '../components/ui/Badge';
+import { Card, Progress, SectionHeader } from '../components/ui/Card';
+import { StatusBadge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import { Avatar, AvatarStack } from '../components/ui/Avatar';
 import { Tabs } from '../components/ui/Tabs';
@@ -32,7 +32,7 @@ import {
 import { UploadPlanSheet } from '../components/project/UploadPlanSheet';
 import { Measured, Panel, SpecLabel, SpecRow, TitleBlock } from '../components/smpro/Primitives';
 import { useApp } from '../contexts/AppContext';
-import { useScreenInit } from '../useScreenInit.js';
+import { useUrlTab } from '../hooks/useUrlTab';
 import { currency } from '../utils/format';
 import { memberName } from '../data/organization';
 import { supplierName } from '../data/procurement';
@@ -55,8 +55,7 @@ export function ProjectDetail() {
   const { projectId = '' } = useParams();
   const navigate = useNavigate();
   const app = useApp();
-  const screenInit = useScreenInit();
-  const [tab, setTab] = useState(screenInit.tab ?? 'overview');
+  const [tab, setTab] = useUrlTab(TABS.map((t) => t.value), 'overview');
   const [uploadOpen, setUploadOpen] = useState(false);
 
   const project = app.projects.find((p) => p.id === projectId);
@@ -223,7 +222,7 @@ export function ProjectDetail() {
                   <TitleBlock
                   label="Traceability"
                   title="Plan set to payment"
-                  reference="EVERY STAGE LINKS TO ITS RECORD" />
+                  reference="Every stage links to its record" />
                 
                   <div className="p-4">
                     <PipelineTrail stages={trail} />

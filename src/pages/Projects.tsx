@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { BuildingIcon, PlusIcon, SearchXIcon } from 'lucide-react';
 import { PageHeader } from '../components/shell/PageHeader';
 import { ProjectCard } from '../components/project/ProjectCard';

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { HeadsetIcon, ShieldAlertIcon, ShieldIcon } from 'lucide-react';
-import { Panel, SpecLabel, Measured, TickRule, WorkHeading } from '../../components/smpro/Primitives';
+import { HeadsetIcon, ShieldAlertIcon } from 'lucide-react';
+import { Panel, SpecLabel, Measured, TickRule } from '../../components/smpro/Primitives';
 import { PanelSection } from '../../components/admin/Records';
 import { Cell, ListToolbar, RecordHeader, RecordTable, Row, ScopeNote } from '../../components/supplier/Records';
 import { Badge } from '../../components/ui/Badge';
@@ -158,7 +158,7 @@ export function SupportCaseDetail() {
           backTo="/admin/support"
           eyebrow={`Support case · ${record.id}`}
           title={record.subject}
-          reference={`${orgName(record.orgId).toUpperCase()} · OPENED ${record.created.toUpperCase()}`}
+          reference={`${orgName(record.orgId)} · opened ${record.created}`}
           status={
           <>
               <Badge tone={record.priority === 'Critical' || record.priority === 'High' ? 'danger' : 'neutral'}>
@@ -224,7 +224,7 @@ export function SupportCaseDetail() {
                   <span className="measure w-[110px] shrink-0 text-[11px] text-ink-400">{t.at}</span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-[12.5px] leading-snug text-ink-700">{t.label}</span>
-                    <span className="measure mt-0.5 block text-[10.5px] text-ink-400">{t.by.toUpperCase()}</span>
+                    <span className="measure mt-0.5 block text-[10.5px] text-ink-400">{t.by}</span>
                   </span>
                 </li>
               )}
@@ -365,7 +365,7 @@ export function Security() {
                   </div>
                   <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-600">{e.detail}</p>
                   <p className="measure mt-1 text-[10.5px] text-ink-400">
-                    {orgName(e.orgId).toUpperCase()} · {e.actor.toUpperCase()} · {e.at.toUpperCase()}
+                    {orgName(e.orgId)} · {e.actor} · {e.at}
                   </p>
                 </div>
                 <button
@@ -509,8 +509,8 @@ export function AuditLog() {
                   {a.severity}
                 </Badge>
                 <span className="measure ml-auto text-[11px] text-ink-400">
-                  {a.module.toUpperCase()}
-                  {a.orgId ? ` · ${orgName(a.orgId).toUpperCase()}` : ''}
+                  {a.module}
+                  {a.orgId ? ` · ${orgName(a.orgId)}` : ''}
                 </span>
               </div>
               <p className="mt-1.5 text-[12.5px] text-ink-700">{a.object}</p>
@@ -640,11 +640,10 @@ export function FeatureFlags() {
                 <p className="mt-1 text-[12.5px] leading-relaxed text-ink-500">{f.description}</p>
                 {f.targets.length > 0 &&
               <p className="measure mt-1.5 text-[10.5px] text-ink-400">
-                    TARGETS:{' '}
+                    Targets:{' '}
                     {f.targets.
                 map((t) => organizations.find((o) => o.id === t)?.name ?? PLAN_BY_ID[t]?.name ?? t).
-                join(', ').
-                toUpperCase()}
+                join(', ')}
                   </p>
               }
               </div>
@@ -905,7 +904,7 @@ export function AdminSearch() {
                     <span className="min-w-0 flex-1 truncate text-[13px] font-medium text-ink-800">
                       {u.name} · {u.email}
                     </span>
-                    <span className="measure text-[11px] text-ink-400">{orgName(u.orgId).toUpperCase()}</span>
+                    <span className="measure text-[11px] text-ink-400">{orgName(u.orgId)}</span>
                   </li>
               )}
               </ul>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   AlertTriangleIcon,
@@ -9,7 +9,7 @@ import {
   ShieldAlertIcon,
   Trash2Icon } from
 'lucide-react';
-import { Panel, SpecLabel, Measured, TickRule, WorkHeading } from '../../components/smpro/Primitives';
+import { Panel, SpecLabel, Measured, TickRule } from '../../components/smpro/Primitives';
 import { PanelSection, UsageMeter, ImpactList } from '../../components/admin/Records';
 import {
   Cell,
@@ -224,7 +224,6 @@ export function OrganizationDetail() {
   const navigate = useNavigate();
   const {
     org,
-    users,
     integrations,
     audit,
     setOrgStatus,
@@ -253,7 +252,6 @@ export function OrganizationDetail() {
   }
 
   const plan = record.planId ? PLAN_BY_ID[record.planId] : undefined;
-  const orgUsers = users.filter((u) => u.orgId === record.id);
   const orgIntegrations = integrations.filter((i) => i.orgId === record.id);
   const orgAudit = audit.filter((a) => a.orgId === record.id);
   const orgCases = cases.filter((c) => c.orgId === record.id);
@@ -275,7 +273,7 @@ export function OrganizationDetail() {
         backTo={record.kind === 'supplier' ? '/admin/suppliers' : '/admin/builders'}
         eyebrow={`${record.kind === 'supplier' ? 'Supplier' : 'Builder'} organization · ${record.id}`}
         title={record.name}
-        reference={`${record.region.toUpperCase()} · CREATED ${record.created.toUpperCase()} · LAST ACTIVE ${record.lastActive.toUpperCase()}`}
+        reference={`${record.region} · created ${record.created} · last active ${record.lastActive}`}
         status={<Badge tone={STATUS_TONE(record.status)}>{record.status}</Badge>}
         actions={
         <>
@@ -357,7 +355,7 @@ export function OrganizationDetail() {
               </PanelSection>
           }
 
-            <PanelSection label="Support" title="Open cases" reference={`${orgCases.length} TOTAL`}>
+            <PanelSection label="Support" title="Open cases" reference={`${orgCases.length} total`}>
               {orgCases.length === 0 ?
             <p className="px-4 py-4 text-[13px] text-ink-500">No cases raised for this organization.</p> :
 
@@ -547,7 +545,7 @@ export function OrganizationDetail() {
                   <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                     <span className="measure text-[11px] text-ink-400">{a.at}</span>
                     <span className="text-[13px] font-semibold text-ink-900">{a.action}</span>
-                    <span className="measure text-[11px] text-ink-400">{a.actor.toUpperCase()}</span>
+                    <span className="measure text-[11px] text-ink-400">{a.actor}</span>
                   </div>
                   <p className="mt-1 text-[12.5px] text-ink-600">{a.object}</p>
                   {(a.before || a.after) &&
@@ -821,7 +819,7 @@ function EntitlementPanel({
       <PanelSection
         label="Entitlements"
         title="What this organization can use"
-        reference="PLAN GRANT + OVERRIDE">
+        reference="Plan grant + override">
         
         <ul className="divide-y divide-ink-100">
           {FEATURES.map((f) => {
@@ -1216,7 +1214,7 @@ export function CreateSupplier() {
                         <span className="min-w-0 flex-1">
                           <span className="block text-[12.5px] font-semibold text-ink-900">{f.label}</span>
                           <span className="measure mt-0.5 block text-[10.5px] text-ink-400">
-                            {inPlan ? 'IN PLAN' : 'NOT IN PLAN'}
+                            {inPlan ? 'In plan' : 'Not in plan'}
                           </span>
                         </span>
                         <button

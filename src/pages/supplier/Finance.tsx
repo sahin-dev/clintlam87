@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   AlertTriangleIcon,
@@ -33,12 +33,17 @@ import { currency, qty } from '../../utils/format';
 const OPEN_STATES = ['Draft', 'Sent', 'Pending', 'Partially Paid', 'Overdue', 'Failed'];
 
 export function SupplierInvoices() {
+  const { can } = useSupplier();
+  if (!can('invoice.view')) return <Denied module="Invoices" />;
+  return <SupplierInvoicesView />;
+}
+
+function SupplierInvoicesView() {
   const navigate = useNavigate();
   const s = useSupplier();
   const [tab, setTab] = useState('open');
   const [query, setQuery] = useState('');
 
-  if (!s.can('invoice.view')) return <Denied module="Invoices" />;
 
   const rows = useMemo(() => {
     const byTab = s.invoices.filter((i) =>

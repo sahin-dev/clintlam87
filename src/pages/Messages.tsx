@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FileTextIcon, ImageIcon, MessageSquareIcon, PaperclipIcon, SendIcon } from 'lucide-react';
 import { ThreadMessage } from '../types';

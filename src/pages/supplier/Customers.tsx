@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { BuildingIcon, CheckIcon, MailIcon, PhoneIcon, XIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
@@ -63,7 +63,7 @@ export function Customers() {
       <div className="mb-5 space-y-3">
           {pending.map((c) =>
         <Panel key={c.id} className="overflow-hidden">
-              <TitleBlock label="Connection request" title={c.name} reference={c.city.toUpperCase()} />
+              <TitleBlock label="Connection request" title={c.name} reference={c.city} />
               <div className="px-4 py-3.5">
                 <p className="text-[13px] leading-relaxed text-ink-600">{c.requestNote}</p>
                 <p className="mt-2 text-[12px] text-ink-400">
@@ -181,7 +181,7 @@ export function CustomerDetail() {
         backTo="/supplier/customers"
         eyebrow="Builder organization"
         title={customer.name}
-        reference={`${customer.city.toUpperCase()} · CUSTOMER SINCE ${customer.since.toUpperCase()}`}
+        reference={`${customer.city} · customer since ${customer.since}`}
         status={<StatusBadge status={customer.status} />}
         actions={
         <Button size="sm" variant="secondary" onClick={() => navigate('/supplier/messages')}>
@@ -207,7 +207,7 @@ export function CustomerDetail() {
         }
 
         <Panel className="overflow-hidden">
-          <TitleBlock label="Credit" title="Exposure against limit" reference={`${creditPct}% USED`} />
+          <TitleBlock label="Credit" title="Exposure against limit" reference={`${creditPct}% used`} />
           <div className="px-4 py-3.5">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <Measured label="Credit used" value={currency(customer.creditUsed)} size="md" />
@@ -324,7 +324,7 @@ export function CustomerDetail() {
 
         <section className="grid gap-5 lg:grid-cols-2">
           <Panel className="overflow-hidden">
-            <TitleBlock label="Quotes" reference={`${quotes.length} ON RECORD`} />
+            <TitleBlock label="Quotes" reference={`${quotes.length} on record`} />
             <ul className="divide-y divide-ink-100">
               {quotes.length === 0 &&
               <li className="px-4 py-6 text-center text-[12.5px] text-ink-400">No quotes yet</li>
@@ -350,7 +350,7 @@ export function CustomerDetail() {
           </Panel>
 
           <Panel className="overflow-hidden">
-            <TitleBlock label="Orders & billing" reference={`${orders.length} ORDERS`} />
+            <TitleBlock label="Orders & billing" reference={`${orders.length} orders`} />
             <dl className="px-4 py-1">
               <SpecRow label="Open orders" value={String(orders.filter((o) => o.status !== 'Completed').length)} mono />
               <SpecRow label="Invoices unpaid" value={String(invoices.filter((i) => i.status !== 'Paid').length)} mono />

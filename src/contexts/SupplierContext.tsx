@@ -119,11 +119,8 @@ const SupplierContext = createContext<SupplierState | null>(null);
 
 export function SupplierProvider({ children }: {children: React.ReactNode;}) {
   const { toast } = useApp();
-  const previewing =
-  typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('mp_screen');
-
   const user = supplierStaff.find((s) => s.id === supplierCurrentUserId)!;
-  const [authed, setAuthed] = useState(previewing);
+  const [authed, setAuthed] = useState(false);
   const [branchId, setBranchId] = useState(supplierBranches[0].id);
   const [activeRole, setActiveRole] = useState<SupplierRoleId>('management');
 

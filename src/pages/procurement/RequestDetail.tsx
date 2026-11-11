@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MessageSquareIcon, ScaleIcon, SendIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';

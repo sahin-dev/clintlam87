@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MessageSquareIcon, PackageIcon, PhoneIcon, StarIcon } from 'lucide-react';
 import { PageHeader } from '../components/shell/PageHeader';

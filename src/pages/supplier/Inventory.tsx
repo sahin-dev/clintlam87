@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertTriangleIcon, DatabaseIcon, PlusIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
@@ -26,12 +26,17 @@ import { currency, qty } from '../../utils/format';
  * genuinely available, and what is inbound to cover the gap.
  */
 export function SupplierInventory() {
+  const { can } = useSupplier();
+  if (!can('inventory.view')) return <Denied module="Inventory" />;
+  return <SupplierInventoryView />;
+}
+
+function SupplierInventoryView() {
   const navigate = useNavigate();
   const { can, orders } = useSupplier();
   const [tab, setTab] = useState('all');
   const [query, setQuery] = useState('');
 
-  if (!can('inventory.view')) return <Denied module="Inventory" />;
 
   const rows = useMemo(() => {
     const byTab = products.filter((p) => {

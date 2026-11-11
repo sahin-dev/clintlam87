@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { RouteSuspense } from '../app/RouteLoading';
 import { motion } from 'framer-motion';
 import { twMerge } from 'tailwind-merge';
 import {
@@ -40,7 +41,9 @@ export function SupplierShell() {
             transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
             className={fullBleed ? 'h-full' : 'page-container pb-16'}>
             
-            <Outlet />
+            <RouteSuspense>
+              <Outlet />
+            </RouteSuspense>
           </motion.div>
         </main>
       </div>

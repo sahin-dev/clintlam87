@@ -1,25 +1,36 @@
 /**
  * Single source of truth for every photographic asset in the product.
  * Keeping them here means an image is never referenced from more than one place
- * and a broken URL can be fixed once.
+ * and a broken URL can be fixed once. Files live in `public/images/`.
  */
 export const IMAGES = {
-  projectResidence: "/944064f4-130e-4565-8ac5-7da34704dd81.jpg",
-  projectVillas: "/448d18bb-97d1-4e5b-8b89-b38bb51ae09f.jpg",
-  projectApartments: "/732db7ce-d65e-4e47-b46b-c3ae7716dea7.jpg",
-  projectCommercial: "/98ce8480-b566-4c3d-9849-4d91fb85141f.jpg",
-  blueprint: "/0f01906f-9880-4950-82ce-594c0322ec53.jpg",
-  aiAnalysis: "/39f499a1-bd11-4864-9597-1b2bdfafb12a.jpg",
-  lumberYard: "/a0a9c55a-1d9c-4201-b7b7-171babcb6b65.jpg",
-  deliveryTruck: "/03f7e23f-2fdd-45bb-9522-4b89bd15dbc1.jpg",
-  jobsite: "/bbf22cd4-cc8c-4615-a299-1892bcb972a5.jpg",
-  materialsStaged: "/a7b3663a-474c-46a4-8298-691b40530628.jpg",
-  platformOps: "/92a9ea2a-a5a1-4d27-bdb1-c8873b3e5714.jpg",
-  driverApp: "/40f1e2ab-f49a-4537-962e-614bbddc16f2.jpg",
-  driverHomeBanner: "/be9cd42a-cc07-4cf7-9e76-394c59847b2f.jpg",
-
-  driverPortrait: "/86ca0449-ed7c-4298-a2ac-2dbdb145e4da.jpg",
-
-  driverTruckSide: "/4439e148-3f0d-46be-a7d6-44f85f029b24.jpg"
-
+  projectResidence: '/images/project-residence.webp',
+  projectVillas: '/images/project-villas.webp',
+  projectApartments: '/images/project-apartments.webp',
+  projectCommercial: '/images/project-commercial.webp',
+  blueprint: '/images/plans-on-desk.webp',
+  aiAnalysis: '/images/plans-on-tablet.webp',
+  lumberYard: '/images/lumber-yard.webp',
+  deliveryTruck: '/images/delivery-truck.webp',
+  jobsite: '/images/jobsite.webp',
+  materialsStaged: '/images/materials-staged.webp'
 } as const;
+
+/**
+ * Vector construction sheets used by the takeoff viewers, one per sheet code.
+ * They stand in for the rasterised PDF pages a real plan set would supply;
+ * codes without a dedicated sheet fall back to the closest discipline.
+ */
+const DRAWING_SHEETS = new Set([
+  'A1.01', 'A1.02', 'A2.01', 'A6.01', 'A7.01', 'S1.01', 'S2.04', 'S2.10', 'S3.01', 'S3.02'
+]);
+const DISCIPLINE_FALLBACK: Record<string, string> = {
+  A1: 'A1.01', A2: 'A2.01', A6: 'A6.01', A7: 'A7.01', S1: 'S1.01', S2: 'S2.04', S3: 'S3.01', S4: 'S2.10'
+};
+
+export function drawingFor(sheetCode: string): string {
+  const code = DRAWING_SHEETS.has(sheetCode) ?
+  sheetCode :
+  DISCIPLINE_FALLBACK[sheetCode.slice(0, 2)] ?? 'A1.01';
+  return `/drawings/${code.replace('.', '-')}.svg`;
+}

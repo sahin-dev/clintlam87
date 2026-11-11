@@ -1,5 +1,5 @@
 import { TakeoffRun } from '../types/takeoff';
-import { IMAGES } from './images';
+import { drawingFor } from './images';
 
 /**
  * Engineering detail behind the AI runs: the drawing index, the pre-flight
@@ -10,8 +10,6 @@ import { IMAGES } from './images';
  * Keyed by takeoff id so a workspace can load its own run.
  */
 
-const BP = IMAGES.blueprint;
-const AI = IMAGES.aiAnalysis;
 
 const oakwood: TakeoffRun = {
   takeoffId: 'TK-1024',
@@ -33,7 +31,7 @@ const oakwood: TakeoffRun = {
     discipline: 'Floor Plan',
     classificationConfidence: 99,
     scale: '1/4" = 1\'-0"',
-    image: BP,
+    image: drawingFor('A1.01'),
     reviewed: true,
     issueCount: 0,
     objectIds: ['ob-w14', 'ob-w15']
@@ -46,7 +44,7 @@ const oakwood: TakeoffRun = {
     discipline: 'Floor Plan',
     classificationConfidence: 98,
     scale: '1/4" = 1\'-0"',
-    image: BP,
+    image: drawingFor('A1.02'),
     reviewed: true,
     issueCount: 1,
     objectIds: ['ob-w22']
@@ -59,7 +57,7 @@ const oakwood: TakeoffRun = {
     discipline: 'Elevation',
     classificationConfidence: 96,
     scale: '1/4" = 1\'-0"',
-    image: AI,
+    image: drawingFor('A2.01'),
     reviewed: false,
     issueCount: 1,
     objectIds: ['ob-wall-ht']
@@ -72,7 +70,7 @@ const oakwood: TakeoffRun = {
     discipline: 'Structural',
     classificationConfidence: 97,
     scale: '1/4" = 1\'-0"',
-    image: BP,
+    image: drawingFor('S1.01'),
     reviewed: false,
     issueCount: 2,
     objectIds: ['ob-hdr-3', 'ob-floor-1']
@@ -85,7 +83,7 @@ const oakwood: TakeoffRun = {
     discipline: 'Roof',
     classificationConfidence: 94,
     scale: '3/16" = 1\'-0"',
-    image: AI,
+    image: drawingFor('S2.04'),
     reviewed: false,
     issueCount: 2,
     objectIds: ['ob-roof-1']
@@ -98,7 +96,7 @@ const oakwood: TakeoffRun = {
     discipline: 'Schedule',
     classificationConfidence: 91,
     scale: 'N/A — schedule',
-    image: BP,
+    image: drawingFor('S2.10'),
     reviewed: false,
     issueCount: 1,
     objectIds: ['ob-sched-lvl']
@@ -111,7 +109,7 @@ const oakwood: TakeoffRun = {
     discipline: 'Schedule',
     classificationConfidence: 99,
     scale: 'N/A — schedule',
-    image: BP,
+    image: drawingFor('A6.01'),
     reviewed: true,
     issueCount: 0,
     objectIds: []
@@ -125,7 +123,7 @@ const oakwood: TakeoffRun = {
     classificationConfidence: 72,
     reclassifiedBy: 'John Smith',
     scale: 'N/A — schedule',
-    image: BP,
+    image: drawingFor('A7.01'),
     reviewed: false,
     issueCount: 1,
     objectIds: ['ob-sched-win']
@@ -753,7 +751,7 @@ const mapleRidge: TakeoffRun = {
     discipline: 'Roof',
     classificationConfidence: 99,
     scale: '1/4" = 1\'-0"',
-    image: BP,
+    image: drawingFor('S3.01'),
     reviewed: true,
     issueCount: 0,
     objectIds: ['mo-1']
@@ -766,7 +764,7 @@ const mapleRidge: TakeoffRun = {
     discipline: 'Roof',
     classificationConfidence: 98,
     scale: '1/4" = 1\'-0"',
-    image: AI,
+    image: drawingFor('S3.02'),
     reviewed: true,
     issueCount: 0,
     objectIds: ['mo-2']

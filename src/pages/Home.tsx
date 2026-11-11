@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ScanSearchIcon } from 'lucide-react';
 import { Card, SectionHeader } from '../components/ui/Card';
@@ -17,9 +16,8 @@ import { activity } from '../data/engagement';
 import { projectName } from '../data/projects';
 import { supplierName } from '../data/procurement';
 import { memberName } from '../data/organization';
-import { IMAGES } from '../data/images';
+import { drawingFor } from '../data/images';
 
-const AI_IMAGE = IMAGES.aiAnalysis;
 
 interface AttentionItem {
   id: string;
@@ -303,7 +301,7 @@ export function Home() {
             <TitleBlock
               label="Traceability"
               title="Oakwood Residence"
-              reference="PLAN → PAYMENT"
+              reference="Plan → payment"
               action={
               <button
                 onClick={() => navigate('/projects/pr-1024')}
@@ -319,7 +317,7 @@ export function Home() {
           </Panel>
 
           <Panel className="overflow-hidden">
-            <TitleBlock label="Procurement pipeline" reference="ALL PROJECTS" />
+            <TitleBlock label="Procurement pipeline" reference="All projects" />
             <div className="divide-y divide-ink-100">
               {[
               ['Requirements awaiting pricing', String(openRequests.filter((r) => r.status === 'Pricing' || r.status === 'Under Review').length)],
@@ -341,77 +339,58 @@ export function Home() {
 }
 
 /**
- * The single entry point into the AI takeoff. It sits full width directly
- * under the ledger because uploading a plan set is the action that starts
- * every other workflow in the product — and because a small button in a side
- * rail did not say what it actually does. The three stages are stated inline
- * so the outcome of pressing the button is obvious before pressing it.
+ * The entry point into the AI takeoff. Uploading a plan set starts every other
+ * workflow, so it sits directly under the ledger with the three stages stated
+ * inline — the outcome of pressing the button is clear before pressing it.
  */
 function AiTakeoffBand({ onStart }: {onStart: () => void;}) {
   const steps = [
   { n: '1', label: 'Upload drawings', detail: 'PDF, DWG or scanned sheets' },
   { n: '2', label: 'AI reads the sheets', detail: 'Materials, quantities, confidence' },
-  { n: '3', label: 'You review & approve', detail: 'Then send for pricing' }];
+  { n: '3', label: 'Review & approve', detail: 'Then send for pricing' }];
 
 
   return (
     <section
       aria-labelledby="takeoff-band-heading"
-      className="mb-6 overflow-hidden border border-ink-900 bg-ink-900">
+      className="mb-6 grid overflow-hidden rounded-[4px] border border-ink-100 bg-white md:grid-cols-[minmax(0,1fr)_280px]">
       
-      {/* Drawing banner across the full width, with the run stamp and the
-           model/output captions reading along its edges. */}
-      <div className="relative h-[148px]">
-        <img
-          src={AI_IMAGE}
-          alt="AI detecting framing materials on a construction drawing"
-          className="h-full w-full object-cover opacity-55" />
-        
-        <div className="absolute inset-0 bg-ink-900/40" />
-        <div className="absolute left-4 top-4">
-          <AiStamp label="AI takeoff" />
-        </div>
-        <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between gap-3">
-          <span className="measure text-[10px] text-white/60">SM VISION 2.4</span>
-          <span className="measure text-[10px] text-white/60">SHEET → QUANTITY</span>
-        </div>
-      </div>
-
-      <div className="p-5">
-        <h2
-          id="takeoff-band-heading"
-          className="display-tight text-[21px] font-bold leading-snug text-white">
-          
-          Upload drawings to start an AI takeoff
+      <div className="p-5 sm:p-6">
+        <AiStamp label="AI takeoff" />
+        <h2 id="takeoff-band-heading" className="display-tight mt-3 text-[19px] font-bold text-ink-900">
+          Start a takeoff from your plan set
         </h2>
-        <p className="mt-1.5 max-w-[720px] text-[13px] leading-relaxed text-white/60">
-          SM PRO reads your plan set and returns measured material quantities — each traceable to its
-          sheet, revision and page.
+        <p className="mt-1 max-w-[600px] text-[13.5px] leading-relaxed text-ink-500">
+          SM PRO reads the drawings and returns measured material quantities, each traceable to its sheet,
+          revision and page.
         </p>
 
-        <ol className="mt-4 grid gap-3 border-t border-white/10 pt-4 sm:grid-cols-3 sm:gap-6">
+        <ol className="mt-5 grid gap-3 sm:grid-cols-3 sm:gap-5">
           {steps.map((s) =>
           <li key={s.n} className="flex min-w-0 items-start gap-2.5">
-              <span className="measure mt-[1px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[2px] bg-white/10 text-[10px] font-bold text-white/70">
+              <span className="measure mt-[1px] flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-ink-100 text-[11px] font-semibold text-ink-600">
                 {s.n}
               </span>
               <span className="min-w-0">
-                <span className="block text-[12.5px] font-bold leading-snug text-white">{s.label}</span>
-                <span className="mt-0.5 block text-[11px] leading-snug text-white/45">{s.detail}</span>
+                <span className="block text-[13px] font-semibold leading-snug text-ink-900">{s.label}</span>
+                <span className="mt-0.5 block text-[12px] leading-snug text-ink-400">{s.detail}</span>
               </span>
             </li>
           )}
         </ol>
 
-        <Button
-          size="lg"
-          block
-          className="mt-5"
-          onClick={onStart}
-          icon={<ScanSearchIcon className="h-4 w-4" />}>
-          
+        <Button className="mt-6" onClick={onStart} icon={<ScanSearchIcon className="h-4 w-4" />}>
           Upload drawings
         </Button>
+      </div>
+
+      <div className="relative hidden border-l border-ink-100 bg-[#E4E7EC] md:block" aria-hidden>
+        <div className="absolute left-1/2 top-1/2 aspect-[3/2] w-[240px] -translate-x-1/2 -translate-y-1/2 bg-white shadow-raised">
+          <img src={drawingFor('A1.01')} alt="" className="h-full w-full" />
+          {/* Detection regions, positioned as % of the sheet like the workspace. */}
+          <span className="absolute border-[1.5px] border-info-500 bg-info-500/10" style={{ left: '16%', top: '24%', width: '30%', height: '9%' }} />
+          <span className="absolute border-[1.5px] border-brand-500 bg-brand-500/10" style={{ left: '52%', top: '31%', width: '22%', height: '8%' }} />
+        </div>
       </div>
     </section>);
 
@@ -425,8 +404,8 @@ function FirstRun({ onDismiss, role }: {onDismiss: () => void;role: string;}) {
           <SpecLabel className="text-brand-700">First time here</SpecLabel>
           <p className="mt-1.5 text-[14.5px] font-bold text-ink-900">You&apos;re signed in as {role}</p>
           <p className="mt-1 max-w-[680px] text-[13px] leading-relaxed text-ink-600">
-            Navigation, approvals and actions follow your role — switch roles from the bottom of the sidebar to
-            see another lens.
+            Navigation, approvals and actions are scoped to this role. To work under a different role, sign out
+            and choose it when you sign back in.
           </p>
         </div>
         <Button size="sm" variant="secondary" onClick={onDismiss}>

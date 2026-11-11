@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ReceiptIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
 import { Card, Metric } from '../../components/ui/Card';

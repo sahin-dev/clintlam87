@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { LayersIcon, LockIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
@@ -6,7 +6,7 @@ import { Button } from '../../components/ui/Button';
 import { StatusBadge } from '../../components/ui/Badge';
 import { EmptyState } from '../../components/ui/Feedback';
 import { Tabs } from '../../components/ui/Tabs';
-import { Panel, SpecLabel, SpecRow, TitleBlock, WorkHeading } from '../../components/smpro/Primitives';
+import { Panel, SpecLabel, SpecRow, TitleBlock } from '../../components/smpro/Primitives';
 import { PipelineTrail, TrailStage } from '../../components/common/PipelineTrail';
 import { Cell, Denied, ListToolbar, RecordTable, Row, ScopeNote } from '../../components/supplier/Records';
 import { useSupplier } from '../../contexts/SupplierContext';
@@ -190,7 +190,7 @@ export function SupplierProjectDetail() {
         <>
             <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
               <Panel className="overflow-hidden">
-                <TitleBlock label="Traceability" title="RFQ to payment" reference="THIS PROJECT" />
+                <TitleBlock label="Traceability" title="RFQ to payment" reference="This project" />
                 <div className="p-4">
                   <PipelineTrail stages={trail} />
                 </div>
@@ -229,7 +229,7 @@ export function SupplierProjectDetail() {
                 <TitleBlock
               label="Inbound takeoff"
               title={`${rfq.takeoffRef} · ${rfq.revision}`}
-              reference={`${rfq.sheets} SHEETS`}
+              reference={`${rfq.sheets} sheets`}
               action={
               s.can('takeoff.review') ?
               <Button size="sm" onClick={() => navigate(`/supplier/takeoffs/${rfq.id}`)}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRightIcon, CheckIcon, ShieldCheckIcon } from 'lucide-react';
 import { Logo } from '../../components/ui/Logo';
@@ -7,6 +7,7 @@ import { Input } from '../../components/ui/Field';
 import { InlineAlert } from '../../components/ui/Feedback';
 import { useAdmin } from '../../contexts/AdminContext';
 import { IMAGES } from '../../data/images';
+import { DEMO_MODE } from '../../config';
 
 type Step = 'credentials' | 'verification' | 'access';
 
@@ -117,10 +118,14 @@ export function AdminAuth() {
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password" />
               
+                {DEMO_MODE &&
+              
                 <InlineAlert
                 tone="info"
                 title="Demo account ready"
                 body={`${admin.name} holds the platform administrator credential. It is pre-filled — just continue.`} />
+              
+                }
               
                 <Button type="submit" size="lg" block icon={<ArrowRightIcon className="h-4 w-4" />}>
                   Continue

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { HardHatIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';

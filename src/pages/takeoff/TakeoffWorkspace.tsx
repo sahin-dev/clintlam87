@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowLeftIcon,
@@ -197,8 +197,8 @@ export function TakeoffWorkspace() {
 
         <div className="ml-auto flex items-center gap-2">
           <span
-            className={`spec-label rounded-[2px] px-2 py-1 ${
-            approved ? 'bg-positive-600 text-white' : 'bg-caution-500 text-ink-900'}`
+            className={`rounded-[3px] px-2 py-1 text-[11.5px] font-semibold ${
+            approved ? 'bg-positive-50 text-positive-700' : 'bg-caution-50 text-caution-700'}`
             }>
             
             {approved ? 'Approved' : 'AI takeoff — unverified'}
@@ -248,6 +248,7 @@ export function TakeoffWorkspace() {
           <Button
             size="sm"
             disabled={!readyToApprove}
+            title={readyToApprove ? undefined : 'Resolve the open verification gates to approve'}
             onClick={() => setApproveOpen(true)}
             icon={!readyToApprove ? <LockIcon className="h-3.5 w-3.5" /> : undefined}>
             

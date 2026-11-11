@@ -11,8 +11,8 @@ import { Logo } from '../../components/ui/Logo';
 import { useApp } from '../../contexts/AppContext';
 import { RoleId } from '../../types';
 import { ROLES } from '../../utils/rbac';
-import { useScreenInit } from '../../useScreenInit.js';
 import { IMAGES } from '../../data/images';
+import { DEMO_MODE } from '../../config';
 
 type Step =
 'splash' |
@@ -30,17 +30,15 @@ const HERO = IMAGES.aiAnalysis;
 export function AuthFlow({ initialStep }: {initialStep?: Step;} = {}) {
   const { signIn } = useApp();
   const navigate = useNavigate();
-  const screenInit = useScreenInit();
-  const [step, setStep] = useState<Step>(screenInit.step as Step ?? initialStep ?? 'signin');
+  const [step, setStep] = useState<Step>(initialStep ?? 'signin');
   const [company, setCompany] = useState('ABC Construction');
   const [accountEmail, setAccountEmail] = useState('alex@abcconstruction.com');
 
   useEffect(() => {
-    // Hold the step a Screens preview asked for instead of auto-advancing.
-    if (step !== 'splash' || screenInit.step) return;
+    if (step !== 'splash') return;
     const t = window.setTimeout(() => setStep('signin'), 1700);
     return () => window.clearTimeout(t);
-  }, [step, screenInit.step]);
+  }, [step]);
 
   if (step === 'splash') return <Splash />;
   if (step === 'welcome')
@@ -228,8 +226,8 @@ function SignIn({
   onAdmin: () => void;
 }) {
   const [selectedRole, setSelectedRole] = useState<RoleId>('owner');
-  const [email, setEmail] = useState('alex@abcconstruction.com');
-  const [password, setPassword] = useState(DEMO_PASSWORD);
+  const [email, setEmail] = useState(DEMO_MODE ? 'alex@abcconstruction.com' : '');
+  const [password, setPassword] = useState(DEMO_MODE ? DEMO_PASSWORD : '');
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -262,9 +260,9 @@ function SignIn({
     const nextErrors: typeof errors = {};
     const account = DEMO_ACCOUNTS.find((item) => item.email.toLowerCase() === email.trim().toLowerCase());
     if (!/^\S+@\S+\.\S+$/.test(email.trim())) nextErrors.email = 'Enter a valid work email.';else
-    if (!account) nextErrors.email = 'Choose one of the available demo accounts.';
+    if (!account) nextErrors.email = "We couldn't find an account with that email.";
     if (!password) nextErrors.password = 'Enter your password.';else
-    if (password !== DEMO_PASSWORD) nextErrors.password = 'That password does not match the demo account.';
+    if (password !== DEMO_PASSWORD) nextErrors.password = 'Incorrect email or password.';
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length || !account) return;
     finish(account);
@@ -272,22 +270,22 @@ function SignIn({
 
   return (
     <AuthLayout
-      title="Sign in to your workspace"
-      body="Choose the job you want to preview. We will load the right demo account and permissions."
+      title="Sign in to SM PRO"
+      body="Use your work email to access your organization's workspace."
       footer={
       <div className="space-y-3 text-center">
           <p className="text-[13px] text-ink-500">
             New to SM PRO?{' '}
-            <button onClick={onSignUp} className="font-bold text-brand-600">
+            <button onClick={onSignUp} className="font-semibold text-brand-600 hover:text-brand-700">
               Create an organization
             </button>
           </p>
-          <nav aria-label="Other sign-in options" className="flex items-center justify-center gap-3 text-[12px] font-semibold">
-            <button onClick={onSupplier} className="text-ink-500 transition-colors hover:text-brand-600">
+          <nav aria-label="Other sign-in options" className="flex items-center justify-center gap-3 text-[12.5px] font-medium">
+            <button onClick={onSupplier} className="text-ink-500 transition-colors hover:text-ink-900">
               Supplier sign in
             </button>
-            <span className="text-ink-200" aria-hidden>•</span>
-            <button onClick={onAdmin} className="text-ink-500 transition-colors hover:text-brand-600">
+            <span className="text-ink-200" aria-hidden>·</span>
+            <button onClick={onAdmin} className="text-ink-500 transition-colors hover:text-ink-900">
               Platform admin
             </button>
           </nav>
@@ -295,36 +293,6 @@ function SignIn({
       }>
       
       <form className="space-y-4" onSubmit={submit} noValidate>
-        <fieldset>
-          <legend className="mb-2 text-[13px] font-bold text-ink-700">Choose a demo role</legend>
-          <div className="grid grid-cols-2 gap-2">
-            {DEMO_ACCOUNTS.map((account) => {
-              const selected = account.role === selectedRole;
-              return (
-                <button
-                  key={account.role}
-                  type="button"
-                  aria-pressed={selected}
-                  onClick={() => chooseAccount(account)}
-                  className={`min-w-0 rounded-xl border px-3 py-2.5 text-left transition-[border-color,background-color,box-shadow] duration-150 ${
-                  selected ?
-                  'border-brand-500 bg-brand-50 shadow-[0_0_0_3px_rgba(249,99,23,0.08)]' :
-                  'border-ink-200 bg-white hover:border-ink-300 hover:bg-ink-50'}`
-                  }>
-                  <span className={`block truncate text-[12.5px] font-bold ${selected ? 'text-brand-700' : 'text-ink-800'}`}>
-                    {ROLES[account.role].short}
-                  </span>
-                  <span className="mt-0.5 block truncate text-[11px] text-ink-400">{account.name}</span>
-                </button>);
-            })}
-          </div>
-        </fieldset>
-
-        <InlineAlert
-          tone="info"
-          title={`Continue as ${selectedAccount.name}`}
-          body={ROLES[selectedRole].focus} />
-
         <Input
           label="Work email"
           type="email"
@@ -353,7 +321,7 @@ function SignIn({
             type="button"
             aria-label={showPassword ? 'Hide password' : 'Show password'}
             onClick={() => setShowPassword((visible) => !visible)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg hover:bg-ink-50 hover:text-ink-700">
+            className="flex h-8 w-8 items-center justify-center rounded-[3px] hover:bg-ink-50 hover:text-ink-700">
               {showPassword ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
             </button>}
           onChange={(e) => {
@@ -363,27 +331,62 @@ function SignIn({
         
         <div className="flex items-center justify-between">
           <Checkbox checked={remember} onChange={setRemember}>
-            Remember me
+            Keep me signed in
           </Checkbox>
           <button
             type="button"
             onClick={() => setRecoverySent(true)}
-            className="text-[13px] font-semibold text-brand-600">
+            className="text-[13px] font-semibold text-brand-600 hover:text-brand-700">
             Forgot password?
           </button>
         </div>
         {recoverySent &&
         <InlineAlert
           tone="success"
-          title="Reset link ready"
-          body={`In production, password instructions would be sent to ${email}.`} />
+          title="Check your inbox"
+          body={`If an account exists for ${email.trim() || 'that address'}, we've sent a link to reset your password.`} />
         }
         <Button type="submit" block size="lg" loading={loading}>
-          Continue as {ROLES[selectedRole].short}
+          Sign in
         </Button>
+
+        <div className="flex items-center gap-3" aria-hidden>
+          <span className="h-px flex-1 bg-ink-100" />
+          <span className="text-[12px] text-ink-400">or</span>
+          <span className="h-px flex-1 bg-ink-100" />
+        </div>
         <Button type="button" block size="lg" variant="secondary" onClick={() => finish(selectedAccount)}>
-          Use company SSO
+          Continue with company SSO
         </Button>
+
+        {DEMO_MODE &&
+        <fieldset className="rounded-[4px] border border-dashed border-ink-200 bg-ink-50/60 p-3.5">
+            <legend className="px-1 text-[12px] font-semibold text-ink-600">Demo workspace</legend>
+            <p className="mb-2.5 text-[12px] leading-relaxed text-ink-500">
+              Sample accounts for ABC Construction. Pick a role to fill in its credentials.
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {DEMO_ACCOUNTS.map((account) => {
+              const selected = account.role === selectedRole && email === account.email;
+              return (
+                <button
+                  key={account.role}
+                  type="button"
+                  aria-pressed={selected}
+                  title={`${account.name} — ${ROLES[account.role].focus}`}
+                  onClick={() => chooseAccount(account)}
+                  className={`rounded-[3px] border px-2.5 py-1.5 text-[12px] font-medium transition-colors duration-150 ${
+                  selected ?
+                  'border-brand-500 bg-white text-brand-700' :
+                  'border-ink-200 bg-white text-ink-600 hover:border-ink-300 hover:text-ink-900'}`
+                  }>
+                    {ROLES[account.role].short}
+                  </button>);
+
+            })}
+            </div>
+          </fieldset>
+        }
       </form>
     </AuthLayout>);
 
@@ -478,7 +481,7 @@ function Verify({ email, onDone, onBack }: {email: string;onDone: () => void;onB
       step={2}
       totalSteps={6}
       title="Verify your email"
-      body={`We sent a 6-digit code to ${email} — it is already filled in for this demo.`}
+      body={`We sent a 6-digit code to ${email}.${DEMO_MODE ? ' It has been filled in for this demo workspace.' : ''}`}
       onBack={onBack}
       footer={
       <Button block size="lg" disabled={code.some((digit) => !digit)} onClick={onDone}>

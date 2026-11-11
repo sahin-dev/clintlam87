@@ -1,4 +1,3 @@
-import React from 'react';
 import { ScaleIcon } from 'lucide-react';
 import { QuantityDerivation } from '../../types/takeoff';
 import { derivedTotal } from '../../data/takeoffEngine';

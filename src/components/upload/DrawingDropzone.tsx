@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { FileUpIcon } from 'lucide-react';
 import { ACCEPT_ATTR, MAX_FILE_MB, MAX_FILES } from '../../utils/upload';
 

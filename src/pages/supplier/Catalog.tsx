@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { PackageIcon, TagIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
 import { Button } from '../../components/ui/Button';
@@ -18,7 +18,7 @@ import {
 import { useSupplier } from '../../contexts/SupplierContext';
 import { available, pricingRules, products, productById } from '../../data/supplierCatalog';
 import { supplierCustomers, customerName } from '../../data/supplierOrg';
-import { currency, qty } from '../../utils/format';
+import { qty } from '../../utils/format';
 import { Product } from '../../types/supplier';
 
 const CATEGORIES = ['All categories', ...Array.from(new Set(products.map((p) => p.category)))];
@@ -26,11 +26,15 @@ const CATEGORIES = ['All categories', ...Array.from(new Set(products.map((p) => 
 /** The yard's own catalog. Builder takeoff lines are mapped onto these SKUs. */
 export function SupplierProducts() {
   const { can } = useSupplier();
+  if (!can('products.view')) return <Denied module="Products" />;
+  return <SupplierProductsView />;
+}
+
+function SupplierProductsView() {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [openProduct, setOpenProduct] = useState<Product | null>(null);
 
-  if (!can('products.view')) return <Denied module="Products" />;
 
   const rows = useMemo(() => {
     const byCategory =
@@ -195,6 +199,12 @@ export function SupplierProducts() {
 /* ------------------------------------------------------------------ */
 
 export function SupplierPricing() {
+  const { can } = useSupplier();
+  if (!can('pricing.view')) return <Denied module="Pricing" />;
+  return <SupplierPricingView />;
+}
+
+function SupplierPricingView() {
   const { can, toast } = useSupplier();
   const [rules, setRules] = useState(pricingRules);
   const [customerId, setCustomerId] = useState('all');
@@ -203,7 +213,6 @@ export function SupplierPricing() {
   const [nextPrice, setNextPrice] = useState('');
   const [reason, setReason] = useState('');
 
-  if (!can('pricing.view')) return <Denied module="Pricing" />;
 
   const active = supplierCustomers.filter((c) => c.status === 'Active');
   const rows = useMemo(() => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { CheckIcon, MailPlusIcon, PlusIcon, Trash2Icon } from 'lucide-react';
 import { AuthLayout } from './AuthLayout';
 import { Button } from '../ui/Button';

@@ -1,196 +1,204 @@
-/* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED — DO NOT DELETE THIS COMMENT */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+    width: 100%;
+  }
+  body {
+    margin: 0;
+    background-color: #f6f7f9;
+    color: #16191f;
+    font-family: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
 
-/* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
+  /*
+   * Weight discipline: 700 for page headings and headline figures, 600 for
+   * subheadings and labels, 500 for prominent UI text, 400 for body copy.
+   * These sit in the base layer so any utility on the element still wins.
+   */
+  h1 {
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
 
-html,
-body,
-#root {
-  min-height: 100%;
-  width: 100%;
-}
-body {
-  margin: 0;
-  background-color: #f6f7f9;
-  font-family: 'Inter', system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  color: #16191f;
-}
-/**
- * The single content container for every in-app screen. Page headers, filters,
- * cards and tables all inherit this exact width and gutter so nothing sits at a
- * different left/right edge from anything else.
- */
-.page-container {
-  width: 100%;
-  max-width: 1180px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 24px;
-  padding-right: 24px;
-}
-@media (min-width: 1024px) {
-  .page-container {
-    padding-left: 40px;
-    padding-right: 40px;
+  *:focus-visible {
+    outline: 2px solid #f96317;
+    outline-offset: 2px;
   }
 }
-/**
- * Reading column for single-record detail and form screens. The page header
- * lives inside it too, so the title, back link and cards share one left edge
- * and one right edge instead of drifting apart.
- */
-.detail-column {
-  width: 100%;
-  max-width: 980px;
-  margin-left: auto;
-  margin-right: auto;
-}
-/* ------------------------------------------------------------------
-   Typographic weight discipline.
-   Bold (700) is reserved for display/page headings and headline
-   figures. Everything else steps down: 600 for subheadings and
-   labels, 500 for secondary headings and prominent UI text, 400 for
-   body copy. Element rules sit below the utility layer, so any
-   explicit utility on an element still wins.
-   ------------------------------------------------------------------ */
-h1 {
-  font-weight: 700;
-}
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 600;
-}
-h1,
-h2,
-h3 {
-  text-wrap: balance;
-}
-p {
-  text-wrap: pretty;
-}
-.display-tight {
-  letter-spacing: -0.02em;
-}
-.tabular {
-  font-variant-numeric: tabular-nums;
-}
-/* ============================================================
-   SM PRO DESIGN LANGUAGE
-   Construction-document geometry: square-shouldered panels,
-   drafting annotation labels, measurement rules and blueprint
-   surfaces. Used instead of generic SaaS card/pill patterns.
-   ============================================================ */
 
-/* Square-shouldered technical panel. Replaces the soft SaaS card. */
-.panel {
-  background: #ffffff;
-  border: 1px solid #e9ecf1;
-  border-radius: 4px;
+/* ------------------------------------------------------------------
+   SM PRO design language
+   Square-shouldered panels, quiet labels and tabular figures. Kept in
+   the components layer so Tailwind utilities can always override them.
+   ------------------------------------------------------------------ */
+@layer components {
+  /* The single content container for every in-app screen. */
+  .page-container {
+    width: 100%;
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  @media (min-width: 640px) {
+    .page-container {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .page-container {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }
+
+  /* Reading column for single-record detail and form screens. */
+  .detail-column {
+    width: 100%;
+    max-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .panel {
+    background: #ffffff;
+    border: 1px solid #e9ecf1;
+    border-radius: 4px;
+  }
+  .panel-flush {
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+  }
+
+  /* Field and section label — small, quiet, sentence case. */
+  .spec-label {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0;
+    color: #6b7280;
+  }
+
+  /* Quantities, money and identifiers: aligned figures in the UI face. */
+  .measure {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.005em;
+  }
+
+  /* Ruler tick rule used to separate document/quantity sections. */
+  .tick-rule {
+    height: 7px;
+    background-image: repeating-linear-gradient(90deg, #d6dae1 0 1px, transparent 1px 8px);
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-size: 8px 7px;
+    border-bottom: 1px solid #e9ecf1;
+  }
+
+  /* Dark drawing surface, used behind marketing imagery on auth screens. */
+  .blueprint {
+    background-color: #0f1c2e;
+    background-image: linear-gradient(rgba(120, 170, 235, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120, 170, 235, 0.12) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Light drafting grid for document panels on white. */
+  .draft-grid {
+    background-image: linear-gradient(rgba(14, 16, 20, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(14, 16, 20, 0.04) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+
+  /* Corner registration marks, as found on a drawing sheet. */
+  .reg-marks {
+    position: relative;
+  }
+  .reg-marks::before,
+  .reg-marks::after {
+    content: '';
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    pointer-events: none;
+  }
+  .reg-marks::before {
+    top: 7px;
+    left: 7px;
+    border-top: 1.5px solid currentColor;
+    border-left: 1.5px solid currentColor;
+  }
+  .reg-marks::after {
+    bottom: 7px;
+    right: 7px;
+    border-bottom: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+  }
+
+  /* Left status spine on operational rows. */
+  .spine {
+    box-shadow: inset 3px 0 0 0 currentColor;
+  }
+
+  .hairline-grid {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
 }
-.panel-flush {
-  border-left: 0;
-  border-right: 0;
-  border-radius: 0;
+
+@layer utilities {
+  .display-tight {
+    letter-spacing: -0.02em;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
-/* Drafting annotation label — mono, uppercase, wide tracking. */
-.spec-label {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 10px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-  color: #838a96;
-}
-/* Numerals presented as measured quantities. */
-.measure {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
-}
-/* Ruler tick rule used to separate document/quantity sections. */
-.tick-rule {
-  height: 7px;
-  background-image: repeating-linear-gradient(
-    90deg,
-    #d6dae1 0 1px,
-    transparent 1px 8px
-  );
-  background-position: bottom;
-  background-repeat: repeat-x;
-  background-size: 8px 7px;
-  border-bottom: 1px solid #e9ecf1;
-}
-/* Blueprint drawing surface. */
-.blueprint {
-  background-color: #0f1c2e;
-  background-image: linear-gradient(rgba(120, 170, 235, 0.16) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(120, 170, 235, 0.16) 1px, transparent 1px),
-    linear-gradient(rgba(120, 170, 235, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(120, 170, 235, 0.07) 1px, transparent 1px);
-  background-size: 96px 96px, 96px 96px, 16px 16px, 16px 16px;
-}
-/* Light drafting grid for document panels on white. */
-.draft-grid {
-  background-image: linear-gradient(rgba(14, 16, 20, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(14, 16, 20, 0.045) 1px, transparent 1px);
-  background-size: 14px 14px;
-}
-/* Corner registration marks, as found on a drawing sheet. */
-.reg-marks {
-  position: relative;
-}
-.reg-marks::before,
-.reg-marks::after {
-  content: '';
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  pointer-events: none;
-}
-.reg-marks::before {
-  top: 7px;
-  left: 7px;
-  border-top: 1.5px solid currentColor;
-  border-left: 1.5px solid currentColor;
-}
-.reg-marks::after {
-  bottom: 7px;
-  right: 7px;
-  border-bottom: 1.5px solid currentColor;
-  border-right: 1.5px solid currentColor;
-}
-/* Left status spine on operational rows — reads faster than a pill alone. */
-.spine {
-  box-shadow: inset 3px 0 0 0 currentColor;
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.hairline-grid {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 22px 22px;
-}
-*:focus-visible {
-  outline: 2px solid #f96317;
-  outline-offset: 2px;
-}
+
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }

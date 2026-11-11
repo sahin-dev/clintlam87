@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
   ArrowRightLeftIcon,
@@ -25,8 +25,8 @@ import { qty } from '../../utils/format';
 type DockTab = 'issues' | 'reconciliation' | 'verification' | 'revisions';
 
 const SEVERITY: Record<IssueSeverity, {label: string;spine: string;chip: string;}> = {
-  critical: { label: 'Critical', spine: 'text-danger-600', chip: 'bg-danger-600 text-white' },
-  high: { label: 'High', spine: 'text-caution-600', chip: 'bg-caution-500 text-ink-900' },
+  critical: { label: 'Critical', spine: 'text-danger-600', chip: 'bg-danger-100 text-danger-700' },
+  high: { label: 'High', spine: 'text-caution-600', chip: 'bg-caution-100 text-caution-700' },
   medium: { label: 'Medium', spine: 'text-info-500', chip: 'bg-info-100 text-info-700' },
   low: { label: 'Low', spine: 'text-ink-300', chip: 'bg-ink-100 text-ink-600' }
 };
@@ -88,7 +88,7 @@ export function WorkspaceDock({
           }}
           aria-pressed={tab === t.key && !collapsed}
           className={twMerge(
-            'flex items-center gap-1.5 border-r border-ink-100 px-3.5 py-2.5 text-[11px] font-bold uppercase tracking-[0.05em] transition-colors duration-150 ease-smooth',
+            'flex items-center gap-1.5 border-r border-ink-100 px-3.5 py-2.5 text-[12.5px] font-semibold transition-colors duration-150 ease-smooth',
             tab === t.key && !collapsed ?
             'bg-white text-ink-900 shadow-[inset_0_-2px_0_0_#F96317]' :
             'text-ink-400 hover:text-ink-700'
@@ -167,7 +167,7 @@ function IssueQueue({
       <div className="flex flex-wrap items-center gap-3 border-b border-ink-100 px-3.5 py-2">
         {counts.map(({ s, n }) =>
         <span key={s} className="flex items-center gap-1.5">
-            <span className={twMerge('spec-label rounded-[2px] px-1 py-[1px]', SEVERITY[s].chip)}>
+            <span className={twMerge('rounded-[3px] px-1.5 py-[1px] text-[11px] font-semibold', SEVERITY[s].chip)}>
               {SEVERITY[s].label}
             </span>
             <span className="measure text-[12px] font-bold text-ink-900">{n}</span>
@@ -175,7 +175,7 @@ function IssueQueue({
         )}
         <button
           onClick={() => setShowResolved((v) => !v)}
-          className="ml-auto text-[11px] font-bold uppercase tracking-[0.05em] text-ink-400 transition-colors duration-150 ease-smooth hover:text-ink-700">
+          className="ml-auto text-[12px] font-semibold text-ink-400 transition-colors duration-150 ease-smooth hover:text-ink-700">
           
           {showResolved ? 'Hide resolved' : 'Show resolved'}
         </button>
@@ -196,7 +196,7 @@ function IssueQueue({
                 onClick={() => setOpenId(open ? null : issue.id)}
                 className="flex w-full items-start gap-3 px-3.5 py-2.5 text-left transition-colors duration-150 ease-smooth hover:bg-ink-50">
                 
-                  <span className={twMerge('spec-label mt-[3px] shrink-0 rounded-[2px] px-1 py-[1px]', sev.chip)}>
+                  <span className={twMerge('mt-[2px] shrink-0 rounded-[3px] px-1.5 py-[1px] text-[11px] font-semibold', sev.chip)}>
                     {sev.label}
                   </span>
                   <span className="min-w-0 flex-1">

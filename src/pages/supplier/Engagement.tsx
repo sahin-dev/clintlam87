@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowRightIcon,
@@ -295,11 +295,16 @@ const CATEGORIES = [
 
 
 export function SupplierDocuments() {
+  const { can } = useSupplier();
+  if (!can('projects.view')) return <Denied module="Documents" />;
+  return <SupplierDocumentsView />;
+}
+
+function SupplierDocumentsView() {
   const s = useSupplier();
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0]);
 
-  if (!s.can('projects.view')) return <Denied module="Documents" />;
 
   const rows = useMemo(() => {
     const visible = supplierDocuments.filter((d) => !d.permission || s.can(d.permission));

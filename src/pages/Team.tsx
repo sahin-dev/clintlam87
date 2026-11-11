@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { MailPlusIcon, ShieldCheckIcon, UsersIcon } from 'lucide-react';
 import { PageHeader } from '../components/shell/PageHeader';
 import { Card, SectionHeader } from '../components/ui/Card';
-import { Badge, StatusBadge } from '../components/ui/Badge';
+import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import { Avatar } from '../components/ui/Avatar';
 import { BottomSheet } from '../components/ui/Sheet';
@@ -12,6 +12,7 @@ import { useApp } from '../contexts/AppContext';
 import { ROLES, ROLE_ORDER } from '../utils/rbac';
 import { team } from '../data/organization';
 import { RoleId, TeamMember } from '../types';
+import { initialsOf } from '../utils/format';
 
 export function Team() {
   const { can, organization, toast } = useApp();
@@ -228,7 +229,9 @@ export function Team() {
             {
               id: `tm-${Date.now()}`,
               name: inviteName.trim(),
+              initials: initialsOf(inviteName.trim()),
               email: inviteEmail.trim(),
+              phone: '',
               roles: ['superintendent'],
               branchId: organization.branches[0].id,
               status: 'invited',

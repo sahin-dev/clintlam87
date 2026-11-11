@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertTriangleIcon, CalendarClockIcon, MapPinIcon } from 'lucide-react';
 import { Progress } from '../ui/Card';

@@ -6,11 +6,11 @@ type Size = 'sm' | 'md' | 'lg';
 
 const variants: Record<Variant, string> = {
   primary:
-  'bg-brand-500 text-white hover:bg-brand-600 active:bg-brand-700 shadow-[0_1px_2px_rgba(249,99,23,0.35)]',
+  'bg-brand-500 text-white hover:bg-brand-600 active:bg-brand-700 shadow-[0_1px_2px_rgba(249,99,23,0.35)] disabled:bg-ink-100 disabled:text-ink-400 disabled:shadow-none disabled:opacity-100',
   secondary: 'bg-white text-ink-800 border border-ink-200 hover:bg-ink-50 active:bg-ink-100',
   ghost: 'bg-transparent text-ink-600 hover:bg-ink-100 active:bg-ink-200',
-  danger: 'bg-danger-500 text-white hover:bg-danger-600',
-  dark: 'bg-ink-900 text-white hover:bg-ink-800'
+  danger: 'bg-danger-500 text-white hover:bg-danger-600 disabled:bg-ink-100 disabled:text-ink-400 disabled:opacity-100',
+  dark: 'bg-ink-900 text-white hover:bg-ink-800 disabled:bg-ink-100 disabled:text-ink-400 disabled:opacity-100'
 };
 
 const sizes: Record<Size, string> = {
@@ -43,7 +43,7 @@ export function Button({
       {...rest}
       disabled={disabled || loading}
       className={twMerge(
-        'inline-flex items-center justify-center font-bold leading-none transition-[background-color,color,transform,box-shadow] duration-150 ease-smooth active:scale-[0.985] disabled:opacity-45 disabled:pointer-events-none',
+        'inline-flex items-center justify-center font-bold leading-none transition-[background-color,color,transform,box-shadow] duration-150 ease-smooth active:scale-[0.985] disabled:cursor-not-allowed disabled:opacity-60',
         variants[variant],
         sizes[size],
         block && 'w-full',

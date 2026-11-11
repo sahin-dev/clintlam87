@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ClipboardListIcon, FileTextIcon, ScanSearchIcon, UserCheckIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
@@ -147,7 +147,7 @@ export function RfqDetail() {
         backTo="/supplier/rfqs"
         eyebrow={`Request for quote · ${customerName(rfq.customerId)}`}
         title={supplierProjectName(rfq.projectId)}
-        reference={`${rfq.id} · ${rfq.takeoffRef} · ${rfq.revision} · ${rfq.sheets} SHEETS`}
+        reference={`${rfq.id} · ${rfq.takeoffRef} · ${rfq.revision} · ${rfq.sheets} sheets`}
         status={<StatusBadge status={rfq.status === 'New' ? 'Submitted' : rfq.status} />}
         actions={
         s.can('takeoff.review') ?
@@ -262,7 +262,7 @@ export function RfqDetail() {
         </section>
 
         <Panel className="overflow-hidden">
-          <TitleBlock label="Attachments" title="What the builder sent" reference={`${rfq.attachments.length} ITEMS`} />
+          <TitleBlock label="Attachments" title="What the builder sent" reference={`${rfq.attachments.length} items`} />
           <TickRule />
           <ul className="divide-y divide-ink-100">
             {rfq.attachments.map((a) =>

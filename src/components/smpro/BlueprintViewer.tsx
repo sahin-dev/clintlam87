@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -52,6 +52,8 @@ export function BlueprintViewer({
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const drag = useRef<{x: number;y: number;ox: number;oy: number;} | null>(null);
+  const surfaceRef = useRef<HTMLDivElement>(null);
+  const sheetWidth = useFittedSheetWidth(surfaceRef);
 
   useEffect(() => {
     setZoom(1);
@@ -125,7 +127,8 @@ export function BlueprintViewer({
 
       {/* Drawing surface. */}
       <div
-        className="blueprint reg-marks relative min-h-[320px] flex-1 cursor-grab overflow-hidden text-white/25 active:cursor-grabbing"
+        ref={surfaceRef}
+        className="relative min-h-[320px] w-full flex-1 cursor-grab overflow-hidden bg-[#E4E7EC] active:cursor-grabbing"
         onPointerDown={(e) => {
           drag.current = { x: e.clientX, y: e.clientY, ox: offset.x, oy: offset.y };
           (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
@@ -144,14 +147,19 @@ export function BlueprintViewer({
           drag.current = null;
         }}>
         
+        {/* The sheet keeps its 3:2 drawing proportion at every viewport size, so
+            detection regions (stored as % of the sheet) stay registered to it. */}
         <div
-          className="absolute inset-0 origin-center transition-transform duration-200 ease-smooth"
-          style={{ transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})` }}>
+          className="absolute left-1/2 top-1/2 aspect-[3/2] bg-white shadow-[0_1px_3px_rgba(14,16,20,0.12),0_8px_24px_rgba(14,16,20,0.08)] transition-transform duration-200 ease-smooth"
+          style={{
+            width: sheetWidth,
+            transform: `translate(-50%, -50%) translate(${offset.x}px, ${offset.y}px) scale(${zoom})`
+          }}>
           
           <img
             src={sheet.image}
             alt={`Sheet ${sheet.code} — ${sheet.title}`}
-            className="h-full w-full object-contain mix-blend-screen opacity-90"
+            className="h-full w-full select-none"
             draggable={false} />
           
 
@@ -165,8 +173,8 @@ export function BlueprintViewer({
                 className={twMerge(
                   'absolute rounded-[2px] border-2 transition-colors duration-150 ease-smooth',
                   active ?
-                  'border-brand-400 bg-brand-500/25' :
-                  'border-info-500/70 bg-info-500/10 hover:border-brand-300'
+                  'border-brand-500 bg-brand-500/15' :
+                  'border-info-500/80 bg-info-500/[0.07] hover:border-brand-400'
                 )}
                 style={{ left: `${m.x}%`, top: `${m.y}%`, width: `${m.w}%`, height: `${m.h}%` }}>
                 
@@ -174,7 +182,7 @@ export function BlueprintViewer({
                   className={twMerge(
                     /* Capped so a long object tag cannot run past the sheet edge. */
                     'measure absolute -top-[18px] left-0 max-w-[160px] truncate px-1 text-[9.5px] font-bold',
-                    active ? 'bg-brand-500 text-white' : 'bg-info-500/80 text-white'
+                    active ? 'bg-brand-500 text-white' : 'bg-info-600 text-white'
                   )}>
                   
                   {m.label}
@@ -185,16 +193,33 @@ export function BlueprintViewer({
         </div>
 
         {/* Scale bar, as printed on a drawing. */}
-        <div className="pointer-events-none absolute bottom-3 left-3 flex items-center gap-2 bg-ink-900/70 px-2 py-1">
-          <RulerIcon className="h-3 w-3 text-white/60" aria-hidden />
-          <span className="measure text-[10px] text-white/70">SCALE 1/4&quot; = 1&apos;-0&quot;</span>
+        <div className="pointer-events-none absolute bottom-3 left-3 flex items-center gap-1.5 rounded-[3px] bg-white/90 px-2 py-1 shadow-card">
+          <RulerIcon className="h-3 w-3 text-ink-400" aria-hidden />
+          <span className="measure text-[11px] text-ink-600">1/4&quot; = 1&apos;-0&quot;</span>
         </div>
-        <div className="pointer-events-none absolute bottom-3 right-3 bg-ink-900/70 px-2 py-1">
-          <span className="measure text-[10px] text-white/70">
+        <div className="pointer-events-none absolute bottom-3 right-3 rounded-[3px] bg-white/90 px-2 py-1 shadow-card">
+          <span className="measure text-[11px] text-ink-600">
             {sheet.markers.length} detections on this sheet
           </span>
         </div>
       </div>
     </div>);
 
+}
+/** Largest 3:2 sheet width that fits the surface with a 16px margin all round. */
+function useFittedSheetWidth(ref: RefObject<HTMLElement>) {
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => {
+      const { width: w, height: h } = el.getBoundingClientRect();
+      setWidth(Math.max(0, Math.min(w - 32, (h - 32) * 1.5)));
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [ref]);
+  return width;
 }

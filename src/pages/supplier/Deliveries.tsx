@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   AlertTriangleIcon,
@@ -56,6 +56,12 @@ const DAY_ORDER = ['Today', 'Tomorrow'];
  * window, so the yard reads it like a run sheet rather than a record list.
  */
 export function SupplierDeliveries() {
+  const { can } = useSupplier();
+  if (!can('delivery.view')) return <Denied module="Deliveries" />;
+  return <SupplierDeliveriesView />;
+}
+
+function SupplierDeliveriesView() {
   const navigate = useNavigate();
   const s = useSupplier();
   const [assigning, setAssigning] = useState<SupplierDelivery | null>(null);
@@ -65,7 +71,6 @@ export function SupplierDeliveries() {
   const [answering, setAnswering] = useState<DriverException | null>(null);
   const [answer, setAnswer] = useState('');
 
-  if (!s.can('delivery.view')) return <Denied module="Deliveries" />;
 
   const days = useMemo(() => {
     const groups = new Map<string, SupplierDelivery[]>();

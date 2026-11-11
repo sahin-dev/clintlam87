@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { AppProvider, useApp } from './contexts/AppContext';
 import { SupplierProvider, useSupplier } from './contexts/SupplierContext';
@@ -6,100 +5,129 @@ import { AppShell } from './components/shell/AppShell';
 import { SupplierShell } from './components/supplier/SupplierShell';
 import { ToastHost } from './components/ui/Feedback';
 import { Button } from './components/ui/Button';
-import { AuthFlow } from './pages/auth/AuthFlow';
-import { ActivityLogPage, Home } from './pages/Home';
-import { Projects } from './pages/Projects';
-import { ProjectDetail } from './pages/ProjectDetail';
-import { NewTakeoff } from './pages/takeoff/NewTakeoff';
-import { TakeoffWorkspace } from './pages/takeoff/TakeoffWorkspace';
-import { Procurement } from './pages/procurement/Procurement';
-import { RequestDetail } from './pages/procurement/RequestDetail';
-import { NewRequest } from './pages/procurement/NewRequest';
-import { QuoteCompare } from './pages/procurement/QuoteCompare';
-import { Orders } from './pages/orders/Orders';
-import { OrderDetail } from './pages/orders/OrderDetail';
-import { Deliveries } from './pages/deliveries/Deliveries';
-import { DeliveryDetail } from './pages/deliveries/DeliveryDetail';
-import { Accounting } from './pages/accounting/Accounting';
-import { InvoiceDetail } from './pages/accounting/InvoiceDetail';
-import { Payments } from './pages/accounting/Payments';
-import { Approvals } from './pages/Approvals';
-import { Messages, MessageThreadPage } from './pages/Messages';
-import { Notifications } from './pages/Notifications';
-import { Team } from './pages/Team';
-import { Suppliers, SupplierDetail } from './pages/Suppliers';
-import { Search } from './pages/Search';
-import { Documents, DocumentDetail } from './pages/Documents';
-import { Tasks } from './pages/Tasks';
-import { Jobsite } from './pages/Jobsite';
-import { Profile } from './pages/Profile';
-import { SupplierAuth } from './pages/supplier/SupplierAuth';
-import { SupplierHome } from './pages/supplier/SupplierHome';
-import { Customers, CustomerDetail } from './pages/supplier/Customers';
-import { SupplierProjects, SupplierProjectDetail } from './pages/supplier/Projects';
-import { Rfqs, RfqDetail } from './pages/supplier/Rfqs';
-import { SupplierTakeoffReview, TakeoffInbox } from './pages/supplier/SupplierTakeoffReview';
-import { Estimates, EstimateBuilder } from './pages/supplier/Estimates';
-import { Quotes, QuoteDetail } from './pages/supplier/Quotes';
-import { SupplierOrders, SupplierOrderDetail } from './pages/supplier/Orders';
-import { SupplierInventory, SupplierPurchasing } from './pages/supplier/Inventory';
-import { SupplierProducts, SupplierPricing } from './pages/supplier/Catalog';
-import { SupplierDeliveries, SupplierDeliveryDetail } from './pages/supplier/Deliveries';
-import { SupplierInvoices, SupplierInvoiceDetail, SupplierPayments } from './pages/supplier/Finance';
-import { SupplierService, SupplierCaseDetail } from './pages/supplier/Service';
-import { SupplierMessages, SupplierNotifications, SupplierDocuments } from './pages/supplier/Engagement';
-import { SupplierSearch } from './pages/supplier/Search';
-import { SupplierReports } from './pages/supplier/Reports';
-import {
-  SupplierAuditLog,
-  SupplierIntegrations,
-  SupplierSettings,
-  SupplierTeam } from
-'./pages/supplier/Admin';
-import { SupplierModulePending } from './pages/supplier/ModulePending';
 import { ExchangeProvider } from './contexts/ExchangeContext';
-import { SupplierOnboarding } from './pages/supplier/SupplierOnboarding';
 import { AdminProvider, useAdmin } from './contexts/AdminContext';
 import { AdminShell } from './components/admin/AdminShell';
-import { AdminAuth } from './pages/admin/AdminAuth';
-import { AdminDashboard } from './pages/admin/AdminDashboard';
-import { PlatformOverview } from './pages/admin/PlatformOverview';
-import {
-  SupplierDirectory,
-  BuilderDirectory,
-  OrganizationDetail,
-  CreateSupplier,
-  PlatformUsers } from
-'./pages/admin/Organizations';
-import { Plans, Subscriptions, Entitlements } from './pages/admin/Commercial';
-import { AiOverview, AiJobs, AiIssues, AiConfiguration } from './pages/admin/AiOps';
-import { Integrations, JobQueue, SystemHealth, IncidentDetail } from './pages/admin/PlatformOps';
-import {
-  Support,
-  SupportCaseDetail,
-  Security,
-  AuditLog,
-  Reports,
-  FeatureFlags,
-  AdminSettings,
-  AdminNotifications,
-  AdminSearch } from
-'./pages/admin/Governance';
+import { ErrorBoundary } from './components/app/ErrorBoundary';
+import { lazyPage, RouteSuspense } from './components/app/RouteLoading';
+
+/* Every screen is code-split; shells and providers load up front. */
+const AuthFlow = lazyPage(() => import('./pages/auth/AuthFlow'), 'AuthFlow');
+const ActivityLogPage = lazyPage(() => import('./pages/Home'), 'ActivityLogPage');
+const Home = lazyPage(() => import('./pages/Home'), 'Home');
+const Projects = lazyPage(() => import('./pages/Projects'), 'Projects');
+const ProjectDetail = lazyPage(() => import('./pages/ProjectDetail'), 'ProjectDetail');
+const NewTakeoff = lazyPage(() => import('./pages/takeoff/NewTakeoff'), 'NewTakeoff');
+const TakeoffWorkspace = lazyPage(() => import('./pages/takeoff/TakeoffWorkspace'), 'TakeoffWorkspace');
+const Procurement = lazyPage(() => import('./pages/procurement/Procurement'), 'Procurement');
+const RequestDetail = lazyPage(() => import('./pages/procurement/RequestDetail'), 'RequestDetail');
+const NewRequest = lazyPage(() => import('./pages/procurement/NewRequest'), 'NewRequest');
+const QuoteCompare = lazyPage(() => import('./pages/procurement/QuoteCompare'), 'QuoteCompare');
+const Orders = lazyPage(() => import('./pages/orders/Orders'), 'Orders');
+const OrderDetail = lazyPage(() => import('./pages/orders/OrderDetail'), 'OrderDetail');
+const Deliveries = lazyPage(() => import('./pages/deliveries/Deliveries'), 'Deliveries');
+const DeliveryDetail = lazyPage(() => import('./pages/deliveries/DeliveryDetail'), 'DeliveryDetail');
+const Accounting = lazyPage(() => import('./pages/accounting/Accounting'), 'Accounting');
+const InvoiceDetail = lazyPage(() => import('./pages/accounting/InvoiceDetail'), 'InvoiceDetail');
+const Payments = lazyPage(() => import('./pages/accounting/Payments'), 'Payments');
+const Approvals = lazyPage(() => import('./pages/Approvals'), 'Approvals');
+const Messages = lazyPage(() => import('./pages/Messages'), 'Messages');
+const MessageThreadPage = lazyPage(() => import('./pages/Messages'), 'MessageThreadPage');
+const Notifications = lazyPage(() => import('./pages/Notifications'), 'Notifications');
+const Team = lazyPage(() => import('./pages/Team'), 'Team');
+const Suppliers = lazyPage(() => import('./pages/Suppliers'), 'Suppliers');
+const SupplierDetail = lazyPage(() => import('./pages/Suppliers'), 'SupplierDetail');
+const Search = lazyPage(() => import('./pages/Search'), 'Search');
+const Documents = lazyPage(() => import('./pages/Documents'), 'Documents');
+const DocumentDetail = lazyPage(() => import('./pages/Documents'), 'DocumentDetail');
+const Tasks = lazyPage(() => import('./pages/Tasks'), 'Tasks');
+const Jobsite = lazyPage(() => import('./pages/Jobsite'), 'Jobsite');
+const Profile = lazyPage(() => import('./pages/Profile'), 'Profile');
+const SupplierAuth = lazyPage(() => import('./pages/supplier/SupplierAuth'), 'SupplierAuth');
+const SupplierHome = lazyPage(() => import('./pages/supplier/SupplierHome'), 'SupplierHome');
+const Customers = lazyPage(() => import('./pages/supplier/Customers'), 'Customers');
+const CustomerDetail = lazyPage(() => import('./pages/supplier/Customers'), 'CustomerDetail');
+const SupplierProjects = lazyPage(() => import('./pages/supplier/Projects'), 'SupplierProjects');
+const SupplierProjectDetail = lazyPage(() => import('./pages/supplier/Projects'), 'SupplierProjectDetail');
+const Rfqs = lazyPage(() => import('./pages/supplier/Rfqs'), 'Rfqs');
+const RfqDetail = lazyPage(() => import('./pages/supplier/Rfqs'), 'RfqDetail');
+const SupplierTakeoffReview = lazyPage(() => import('./pages/supplier/SupplierTakeoffReview'), 'SupplierTakeoffReview');
+const TakeoffInbox = lazyPage(() => import('./pages/supplier/SupplierTakeoffReview'), 'TakeoffInbox');
+const Estimates = lazyPage(() => import('./pages/supplier/Estimates'), 'Estimates');
+const EstimateBuilder = lazyPage(() => import('./pages/supplier/Estimates'), 'EstimateBuilder');
+const Quotes = lazyPage(() => import('./pages/supplier/Quotes'), 'Quotes');
+const QuoteDetail = lazyPage(() => import('./pages/supplier/Quotes'), 'QuoteDetail');
+const SupplierOrders = lazyPage(() => import('./pages/supplier/Orders'), 'SupplierOrders');
+const SupplierOrderDetail = lazyPage(() => import('./pages/supplier/Orders'), 'SupplierOrderDetail');
+const SupplierInventory = lazyPage(() => import('./pages/supplier/Inventory'), 'SupplierInventory');
+const SupplierPurchasing = lazyPage(() => import('./pages/supplier/Inventory'), 'SupplierPurchasing');
+const SupplierProducts = lazyPage(() => import('./pages/supplier/Catalog'), 'SupplierProducts');
+const SupplierPricing = lazyPage(() => import('./pages/supplier/Catalog'), 'SupplierPricing');
+const SupplierDeliveries = lazyPage(() => import('./pages/supplier/Deliveries'), 'SupplierDeliveries');
+const SupplierDeliveryDetail = lazyPage(() => import('./pages/supplier/Deliveries'), 'SupplierDeliveryDetail');
+const SupplierInvoices = lazyPage(() => import('./pages/supplier/Finance'), 'SupplierInvoices');
+const SupplierInvoiceDetail = lazyPage(() => import('./pages/supplier/Finance'), 'SupplierInvoiceDetail');
+const SupplierPayments = lazyPage(() => import('./pages/supplier/Finance'), 'SupplierPayments');
+const SupplierService = lazyPage(() => import('./pages/supplier/Service'), 'SupplierService');
+const SupplierCaseDetail = lazyPage(() => import('./pages/supplier/Service'), 'SupplierCaseDetail');
+const SupplierMessages = lazyPage(() => import('./pages/supplier/Engagement'), 'SupplierMessages');
+const SupplierNotifications = lazyPage(() => import('./pages/supplier/Engagement'), 'SupplierNotifications');
+const SupplierDocuments = lazyPage(() => import('./pages/supplier/Engagement'), 'SupplierDocuments');
+const SupplierSearch = lazyPage(() => import('./pages/supplier/Search'), 'SupplierSearch');
+const SupplierReports = lazyPage(() => import('./pages/supplier/Reports'), 'SupplierReports');
+const SupplierAuditLog = lazyPage(() => import('./pages/supplier/Admin'), 'SupplierAuditLog');
+const SupplierIntegrations = lazyPage(() => import('./pages/supplier/Admin'), 'SupplierIntegrations');
+const SupplierSettings = lazyPage(() => import('./pages/supplier/Admin'), 'SupplierSettings');
+const SupplierTeam = lazyPage(() => import('./pages/supplier/Admin'), 'SupplierTeam');
+const SupplierModulePending = lazyPage(() => import('./pages/supplier/ModulePending'), 'SupplierModulePending');
+const SupplierOnboarding = lazyPage(() => import('./pages/supplier/SupplierOnboarding'), 'SupplierOnboarding');
+const AdminAuth = lazyPage(() => import('./pages/admin/AdminAuth'), 'AdminAuth');
+const AdminDashboard = lazyPage(() => import('./pages/admin/AdminDashboard'), 'AdminDashboard');
+const PlatformOverview = lazyPage(() => import('./pages/admin/PlatformOverview'), 'PlatformOverview');
+const SupplierDirectory = lazyPage(() => import('./pages/admin/Organizations'), 'SupplierDirectory');
+const BuilderDirectory = lazyPage(() => import('./pages/admin/Organizations'), 'BuilderDirectory');
+const OrganizationDetail = lazyPage(() => import('./pages/admin/Organizations'), 'OrganizationDetail');
+const CreateSupplier = lazyPage(() => import('./pages/admin/Organizations'), 'CreateSupplier');
+const PlatformUsers = lazyPage(() => import('./pages/admin/Organizations'), 'PlatformUsers');
+const Plans = lazyPage(() => import('./pages/admin/Commercial'), 'Plans');
+const Subscriptions = lazyPage(() => import('./pages/admin/Commercial'), 'Subscriptions');
+const Entitlements = lazyPage(() => import('./pages/admin/Commercial'), 'Entitlements');
+const AiOverview = lazyPage(() => import('./pages/admin/AiOps'), 'AiOverview');
+const AiJobs = lazyPage(() => import('./pages/admin/AiOps'), 'AiJobs');
+const AiIssues = lazyPage(() => import('./pages/admin/AiOps'), 'AiIssues');
+const AiConfiguration = lazyPage(() => import('./pages/admin/AiOps'), 'AiConfiguration');
+const Integrations = lazyPage(() => import('./pages/admin/PlatformOps'), 'Integrations');
+const JobQueue = lazyPage(() => import('./pages/admin/PlatformOps'), 'JobQueue');
+const SystemHealth = lazyPage(() => import('./pages/admin/PlatformOps'), 'SystemHealth');
+const IncidentDetail = lazyPage(() => import('./pages/admin/PlatformOps'), 'IncidentDetail');
+const Support = lazyPage(() => import('./pages/admin/Governance'), 'Support');
+const SupportCaseDetail = lazyPage(() => import('./pages/admin/Governance'), 'SupportCaseDetail');
+const Security = lazyPage(() => import('./pages/admin/Governance'), 'Security');
+const AuditLog = lazyPage(() => import('./pages/admin/Governance'), 'AuditLog');
+const Reports = lazyPage(() => import('./pages/admin/Governance'), 'Reports');
+const FeatureFlags = lazyPage(() => import('./pages/admin/Governance'), 'FeatureFlags');
+const AdminSettings = lazyPage(() => import('./pages/admin/Governance'), 'AdminSettings');
+const AdminNotifications = lazyPage(() => import('./pages/admin/Governance'), 'AdminNotifications');
+const AdminSearch = lazyPage(() => import('./pages/admin/Governance'), 'AdminSearch');
 
 export function App() {
   return (
-    <ExchangeProvider>
-      <AppProvider>
-        <BrowserRouter>
-          <SupplierProvider>
-            <AdminProvider>
-              <Session />
-              <ToastHost />
-            </AdminProvider>
-          </SupplierProvider>
-        </BrowserRouter>
-      </AppProvider>
-    </ExchangeProvider>);
+    <ErrorBoundary>
+      <ExchangeProvider>
+        <AppProvider>
+          <BrowserRouter>
+            <SupplierProvider>
+              <AdminProvider>
+                <RouteSuspense fullScreen>
+                  <Session />
+                </RouteSuspense>
+                <ToastHost />
+              </AdminProvider>
+            </SupplierProvider>
+          </BrowserRouter>
+        </AppProvider>
+      </ExchangeProvider>
+    </ErrorBoundary>);
 
 }
 

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { RouteSuspense } from '../app/RouteLoading';
 import { motion } from 'framer-motion';
 import { twMerge } from 'tailwind-merge';
 import {
@@ -48,7 +49,9 @@ export function AdminShell() {
             transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
             className="page-container pb-16">
             
-            <Outlet />
+            <RouteSuspense>
+              <Outlet />
+            </RouteSuspense>
           </motion.div>
         </main>
       </div>
@@ -106,7 +109,7 @@ function SupportBanner() {
           {session.caseId && ` · ${session.caseId}`}
         </span>
         <span className="measure hidden text-[10.5px] text-ink-900/60 md:block">
-          EVERY ACTION ATTRIBUTED TO {session.by.toUpperCase()}
+          Every action attributed to {session.by}
         </span>
         <Button
           size="sm"

@@ -9,6 +9,7 @@ import { Panel, SpecLabel, TickRule } from '../../components/smpro/Primitives';
 import { useSupplier } from '../../contexts/SupplierContext';
 import { SUPPLIER_ROLES } from '../../utils/supplierRbac';
 import { IMAGES } from '../../data/images';
+import { DEMO_MODE } from '../../config';
 
 type Step = 'signin' | 'verify' | 'organization' | 'branch';
 
@@ -72,7 +73,7 @@ export function SupplierAuth() {
               )}
             </ul>
           </div>
-          <p className="measure text-[10.5px] text-white/40">SEPARATE TENANT FROM ANY BUILDER ORGANIZATION</p>
+          <p className="measure text-[10.5px] text-white/40">Separate tenant from any builder organization</p>
         </div>
       </aside>
 
@@ -119,10 +120,14 @@ export function SupplierAuth() {
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password" />
               
+                {DEMO_MODE &&
+              
                 <InlineAlert
                 tone="info"
                 title="Demo account ready"
                 body="Ray Delgado holds Owner/Management, Sales and Estimator at ABC Lumber & Supply. Credentials are pre-filled — just continue." />
+              
+                }
               
                 <div className="flex items-center justify-between gap-3">
                   <Checkbox checked={remember} onChange={setRemember}>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRightIcon } from 'lucide-react';
 import { Panel, SpecLabel, TitleBlock, WorkHeading, TickRule } from '../../components/smpro/Primitives';
@@ -352,7 +351,7 @@ export function SupplierHome() {
 
         <div className="min-w-0 space-y-6">
           <Panel className="overflow-hidden">
-            <TitleBlock label="Business loops" title="Where work sits right now" reference="ALL YARDS" />
+            <TitleBlock label="Business loops" title="Where work sits right now" reference="All yards" />
             <div className="divide-y divide-ink-100">
               <LoopBlock
                 name="Estimate → sell"
@@ -386,7 +385,7 @@ export function SupplierHome() {
 
           {can('inventory.view') &&
           <Panel className="overflow-hidden">
-              <TitleBlock label="Yard stock" title="Below reorder level" reference="ON HAND − RESERVED" />
+              <TitleBlock label="Yard stock" title="Below reorder level" reference="On hand − reserved" />
               <TickRule />
               <ul className="divide-y divide-ink-100">
                 {lowStock.map((p) =>

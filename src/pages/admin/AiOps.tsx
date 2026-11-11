@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertTriangleIcon, RotateCcwIcon, XCircleIcon } from 'lucide-react';
-import { Panel, SpecLabel, Measured, TickRule, WorkHeading } from '../../components/smpro/Primitives';
+import { Panel, SpecLabel, Measured, TickRule } from '../../components/smpro/Primitives';
 import { PanelSection, UsageMeter } from '../../components/admin/Records';
-import { Cell, ListToolbar, RecordTable, Row } from '../../components/supplier/Records';
+import { ListToolbar } from '../../components/supplier/Records';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Sheet';
@@ -96,7 +96,7 @@ export function AiOverview() {
                     <div className="flex items-baseline justify-between gap-3">
                       <span className="truncate text-[13px] font-semibold text-ink-900">{o.name}</span>
                       <span className="measure text-[11px] text-ink-400">
-                        {o.kind === 'supplier' ? 'SUPPLIER' : 'BUILDER · VIA SUPPLIER LICENCE'}
+                        {o.kind === 'supplier' ? 'Supplier' : 'Builder · via supplier licence'}
                       </span>
                     </div>
                     <div className="mt-2">
@@ -136,7 +136,7 @@ export function AiOverview() {
                   </div>
                   <p className="mt-1.5 text-[12.5px] leading-snug text-ink-700">{i.detail}</p>
                   <p className="measure mt-1 text-[10.5px] text-ink-400">
-                    {orgName(i.orgId).toUpperCase()} · {i.takeoffRef}
+                    {orgName(i.orgId)} · {i.takeoffRef}
                   </p>
                 </li>
               )}
@@ -215,7 +215,7 @@ export function AiJobs() {
                 </div>
                 <p className="mt-1.5 text-[14px] font-semibold text-ink-900">{j.project}</p>
                 <p className="measure mt-0.5 text-[11px] text-ink-400">
-                  {j.takeoffRef} · {j.planSet} · {orgName(j.orgId).toUpperCase()}
+                  {j.takeoffRef} · {j.planSet} · {orgName(j.orgId)}
                 </p>
               </div>
               <div className="w-[180px]">
@@ -332,7 +332,7 @@ export function AiIssues() {
                 </div>
                 <p className="mt-2 text-[13px] leading-relaxed text-ink-700">{i.detail}</p>
                 <p className="measure mt-1.5 text-[10.5px] text-ink-400">
-                  {orgName(i.orgId).toUpperCase()} · {i.project.toUpperCase()} · {i.takeoffRef} · {i.created}
+                  {orgName(i.orgId)} · {i.project} · {i.takeoffRef} · {i.created}
                 </p>
                 {i.resolution &&
               <p className="mt-2 rounded-[2px] bg-positive-50 px-3 py-2 text-[12px] leading-snug text-positive-700">

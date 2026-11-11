@@ -18,6 +18,7 @@ import { useSupplier } from '../../contexts/SupplierContext';
 import { SUPPLIER_ROLES, SUPPLIER_ROLE_ORDER } from '../../utils/supplierRbac';
 import { SupplierRoleId } from '../../types/supplier';
 import { IMAGES } from '../../data/images';
+import { DEMO_MODE } from '../../config';
 
 type Step = 'account' | 'verify' | 'organization' | 'yards' | 'team' | 'integration' | 'done';
 
@@ -203,7 +204,7 @@ export function SupplierOnboarding() {
               )}
             </ol>
           </div>
-          <p className="measure text-[10.5px] text-white/40">SEPARATE TENANT FROM ANY BUILDER ORGANIZATION</p>
+          <p className="measure text-[10.5px] text-white/40">Separate tenant from any builder organization</p>
         </div>
       </aside>
 
@@ -233,10 +234,12 @@ export function SupplierOnboarding() {
           <div className="mt-7">
             {step === 'account' &&
             <div className="space-y-4">
+                {DEMO_MODE &&
                 <InlineAlert
                 tone="info"
                 title="Demo build"
                 body="Every field is pre-filled and nothing is required — continue straight through." />
+                }
               
                 <div className="grid grid-cols-2 gap-3">
                   <Input label="First name" value={account.first} onChange={setField(setAccount, 'first')} />
@@ -268,8 +271,8 @@ export function SupplierOnboarding() {
             <div>
                 <p className="text-[13px] leading-relaxed text-ink-500">
                   We sent a six-digit code to{' '}
-                  <span className="font-semibold text-ink-800">{account.email}</span> — already applied for this
-                  demo.
+                  <span className="font-semibold text-ink-800">{account.email}</span>.
+                  {DEMO_MODE && ' It has been filled in for this demo workspace.'}
                 </p>
                 <div className="mt-5 grid grid-cols-6 gap-2">
                   {code.map((digit, i) =>

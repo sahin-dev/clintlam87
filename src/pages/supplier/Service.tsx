@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HeadsetIcon, PackageIcon, RotateCcwIcon, TruckIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
@@ -7,7 +7,7 @@ import { Badge, StatusBadge } from '../../components/ui/Badge';
 import { Tabs } from '../../components/ui/Tabs';
 import { Modal } from '../../components/ui/Sheet';
 import { Input, Select } from '../../components/ui/Field';
-import { Panel, SpecLabel, SpecRow, TickRule, TitleBlock, WorkHeading } from '../../components/smpro/Primitives';
+import { Panel, SpecRow, TickRule, TitleBlock, WorkHeading } from '../../components/smpro/Primitives';
 import {
   Cell,
   Denied,
@@ -32,12 +32,17 @@ const RESOLUTIONS = [
 
 
 export function SupplierService() {
+  const { can } = useSupplier();
+  if (!can('service.manage')) return <Denied module="Customer service" />;
+  return <SupplierServiceView />;
+}
+
+function SupplierServiceView() {
   const navigate = useNavigate();
   const s = useSupplier();
   const [tab, setTab] = useState('open');
   const [query, setQuery] = useState('');
 
-  if (!s.can('service.manage')) return <Denied module="Customer service" />;
 
   const rows = useMemo(() => {
     const byTab = s.cases.filter((c) =>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export function Tabs({
@@ -29,7 +28,7 @@ export function Tabs({
             aria-selected={active}
             onClick={() => onChange(tab.value)}
             className={twMerge(
-              'relative shrink-0 whitespace-nowrap py-3 text-[12.5px] font-semibold uppercase tracking-[0.05em] transition-colors duration-150 ease-smooth',
+              'relative shrink-0 whitespace-nowrap py-3 text-[13px] font-semibold transition-colors duration-150 ease-smooth',
               active ? 'text-ink-900' : 'text-ink-400 hover:text-ink-600'
             )}>
             

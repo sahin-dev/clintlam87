@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SendIcon, ShoppingCartIcon, TagIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
@@ -158,7 +158,7 @@ export function QuoteDetail() {
         backTo="/supplier/quotes"
         eyebrow={`Quote · ${customerName(quote.customerId)}`}
         title={supplierProjectName(quote.projectId)}
-        reference={`${quote.id} · VERSION ${quote.version} · FROM ${quote.rfqId}`}
+        reference={`${quote.id} · version ${quote.version} · from ${quote.rfqId}`}
         status={<StatusBadge status={quote.status} />}
         actions={
         <>
@@ -260,7 +260,7 @@ export function QuoteDetail() {
 
         <div className="grid gap-5 lg:grid-cols-2">
           <Panel className="overflow-hidden">
-            <TitleBlock label="Totals" reference={`TAX ${quote.taxRate}%`} />
+            <TitleBlock label="Totals" reference={`Tax ${quote.taxRate}%`} />
             <dl className="px-4 py-1">
               <SpecRow label="Subtotal" value={currency(subtotal)} mono />
               <SpecRow label="Discount" value={quote.discount ? `− ${currency(quote.discount)}` : '—'} mono />

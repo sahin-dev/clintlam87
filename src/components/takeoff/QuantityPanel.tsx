@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
   ArrowLeftIcon,
@@ -284,7 +284,7 @@ function LineInspector({
           onClick={() => setTab(key)}
           aria-pressed={tab === key}
           className={twMerge(
-            'flex-1 py-2 text-[11px] font-bold uppercase tracking-[0.05em] transition-colors duration-150 ease-smooth',
+            'flex-1 py-2 text-[12px] font-semibold transition-colors duration-150 ease-smooth',
             tab === key ?
             'border-b-2 border-brand-500 text-ink-900' :
             'text-ink-400 hover:text-ink-600'

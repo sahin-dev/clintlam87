@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LayersIcon, PlusIcon, QuoteIcon, ShoppingCartIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
@@ -9,14 +8,13 @@ import { Tabs } from '../../components/ui/Tabs';
 import { EmptyState } from '../../components/ui/Feedback';
 import { OrderRow, QuoteRow, RequestRow, TakeoffRow } from '../../components/common/Rows';
 import { useApp } from '../../contexts/AppContext';
-import { useScreenInit } from '../../useScreenInit.js';
+import { useUrlTab } from '../../hooks/useUrlTab';
 import { currency } from '../../utils/format';
 
 export function Procurement() {
   const navigate = useNavigate();
   const { requests, quotes, orders, takeoffs, can } = useApp();
-  const screenInit = useScreenInit();
-  const [tab, setTab] = useState(screenInit.tab ?? 'requests');
+  const [tab, setTab] = useUrlTab(['requests', 'takeoffs', 'quotes', 'orders'] as const, 'requests');
 
   const openRequests = requests.filter((r) => r.status !== 'Ordered');
   const liveQuotes = quotes.filter((q) => q.status === 'Received' || q.status === 'Pending');
@@ -51,7 +49,7 @@ export function Procurement() {
       <Panel className="overflow-hidden">
         <TitleBlock
           label="Procurement pipeline"
-          reference={`${currency(committed, { compact: true })} COMMITTED`} />
+          reference={`${currency(committed, { compact: true })} committed`} />
         
         <ol className="flex divide-x divide-ink-100 overflow-x-auto no-scrollbar">
           {[

@@ -1,11 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { FileTextIcon, TagIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
 import { Button } from '../../components/ui/Button';
 import { StatusBadge } from '../../components/ui/Badge';
 import { EmptyState, InlineAlert } from '../../components/ui/Feedback';
-import { Panel, SpecLabel, TitleBlock, WorkHeading, Measured, TickRule } from '../../components/smpro/Primitives';
+import { Panel, TitleBlock, WorkHeading, Measured, TickRule } from '../../components/smpro/Primitives';
 import { Cell, Denied, RecordHeader, RecordTable, Row, ScopeNote } from '../../components/supplier/Records';
 import { useSupplier } from '../../contexts/SupplierContext';
 import { customerName, supplierProjectName } from '../../data/supplierOrg';
@@ -160,7 +160,7 @@ export function EstimateBuilder() {
         backTo={`/supplier/takeoffs/${rfq.id}`}
         eyebrow={`Estimate · ${customerName(rfq.customerId)}`}
         title={supplierProjectName(rfq.projectId)}
-        reference={`${existing?.id ?? 'NEW ESTIMATE'} · FROM ${rfq.id} · ${rfq.takeoffRef} ${rfq.revision}`}
+        reference={`${existing?.id ?? 'New estimate'} · from ${rfq.id} · ${rfq.takeoffRef} ${rfq.revision}`}
         status={<StatusBadge status={existing?.status === 'Ready for Quote' ? 'Approved' : 'Draft'} dot={false} />}
         actions={
         s.can('quote.create') ?
@@ -293,7 +293,7 @@ export function EstimateBuilder() {
         </section>
 
         <Panel className="overflow-hidden">
-          <TitleBlock label="Estimate summary" title="Before discount, delivery and tax" reference="INTERNAL" />
+          <TitleBlock label="Estimate summary" title="Before discount, delivery and tax" reference="Internal" />
           <TickRule />
           <div className="grid grid-cols-2 gap-4 px-4 py-3.5 sm:grid-cols-4">
             <Measured label="Sell value" value={currency(sell)} size="md" tone="brand" />

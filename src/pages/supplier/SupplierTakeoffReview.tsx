@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeftIcon, CheckIcon, PencilIcon, SaveIcon, XIcon } from 'lucide-react';
+import { ArrowLeftIcon, CheckIcon, PencilIcon, SaveIcon, LockIcon, XIcon } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { StatusBadge } from '../../components/ui/Badge';
 import { Modal } from '../../components/ui/Sheet';
@@ -14,7 +14,7 @@ import { useSupplier } from '../../contexts/SupplierContext';
 import { customerName, supplierProjectName } from '../../data/supplierOrg';
 import { available, products, productById } from '../../data/supplierCatalog';
 import { InboundTakeoffLine, LineDecision } from '../../types/supplier';
-import { IMAGES } from '../../data/images';
+import { drawingFor } from '../../data/images';
 import { currency, qty } from '../../utils/format';
 const DECISION_LABEL: Record<LineDecision, string> = {
   pending: 'Not reviewed',
@@ -34,9 +34,16 @@ export function SupplierTakeoffReview() {
   const {
     rfqId = ''
   } = useParams();
-  const navigate = useNavigate();
   const s = useSupplier();
   const rfq = s.rfqs.find((r) => r.id === rfqId);
+  if (!s.can('takeoff.review')) return <Denied module="Takeoff review" />;
+  if (!rfq) return <Denied module="This takeoff" />;
+  return <TakeoffReviewView key={rfq.id} rfq={rfq} />;
+}
+
+function TakeoffReviewView({ rfq }: {rfq: NonNullable<ReturnType<typeof useSupplier>['rfqs'][number]>;}) {
+  const navigate = useNavigate();
+  const s = useSupplier();
   const [activeLineId, setActiveLineId] = useState<string | null>(null);
   const [sheetIndex, setSheetIndex] = useState(0);
   const [editing, setEditing] = useState<InboundTakeoffLine | null>(null);
@@ -45,8 +52,6 @@ export function SupplierTakeoffReview() {
   const [clarifyLine, setClarifyLine] = useState<InboundTakeoffLine | null>(null);
   const [clarifyNote, setClarifyNote] = useState('');
   const [saved, setSaved] = useState(true);
-  if (!s.can('takeoff.review')) return <Denied module="Takeoff review" />;
-  if (!rfq) return <Denied module="This takeoff" />;
 
   /* Sheets are derived from the lines: one entry per source sheet, with each
      line's detected region drawn on it. */
@@ -58,7 +63,7 @@ export function SupplierTakeoffReview() {
         id: code,
         code,
         title: onSheet[0]?.category ? `${onSheet[0].category} scope` : 'Drawing',
-        image: IMAGES.blueprint,
+        image: drawingFor(code),
         markers: onSheet.map((l, i) => ({
           id: l.id,
           x: 14 + i * 23 % 58,
@@ -107,7 +112,7 @@ export function SupplierTakeoffReview() {
         </div>
 
         <div className="ml-auto flex items-center gap-2">
-          <span className="spec-label rounded-[2px] bg-caution-500 px-2 py-1 text-ink-900">
+          <span className="rounded-[3px] bg-caution-50 px-2 py-1 text-[11.5px] font-semibold text-caution-700">
             Builder approved · supplier unverified
           </span>
           <button onClick={() => {
@@ -121,7 +126,7 @@ export function SupplierTakeoffReview() {
             <SaveIcon className="h-3.5 w-3.5" />
             {saved ? 'Saved' : 'Save review'}
           </button>
-          <Button size="sm" disabled={!readyToEstimate} onClick={() => {
+          <Button size="sm" disabled={!readyToEstimate} icon={!readyToEstimate ? <LockIcon className="h-3.5 w-3.5" /> : undefined} onClick={() => {
           s.setRfqStatus(rfq.id, 'Ready for Pricing');
           navigate(`/supplier/estimates/new?rfq=${rfq.id}`);
         }}>
@@ -137,7 +142,7 @@ export function SupplierTakeoffReview() {
         <Counter label="Queried" value={String(queried)} tone={queried ? 'danger' : 'positive'} />
         <Counter label="Rejected" value={String(rejected)} tone={rejected ? 'danger' : 'default'} />
         <span className="measure ml-auto text-[10.5px] text-ink-400">
-          BUILDER MODEL RUN · {rfq.takeoffRef} · {rfq.revision}
+          Builder model run · {rfq.takeoffRef} · {rfq.revision}
         </span>
       </div>
 
@@ -182,7 +187,7 @@ export function SupplierTakeoffReview() {
         <aside className="flex min-h-0 flex-col border-t border-ink-200 bg-white lg:border-l lg:border-t-0">
           <div className="flex items-center justify-between gap-3 border-b border-ink-100 px-3.5 py-2.5">
             <SpecLabel>Inbound takeoff</SpecLabel>
-            <span className="measure text-[10.5px] text-ink-400">{rfq.lines.length} LINES</span>
+            <span className="measure text-[10.5px] text-ink-400">{rfq.lines.length} lines</span>
           </div>
           <TickRule />
           <ul className="no-scrollbar min-h-0 flex-1 divide-y divide-ink-100 overflow-y-auto">

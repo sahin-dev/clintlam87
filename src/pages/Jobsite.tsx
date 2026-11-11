@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CameraIcon, ClipboardCheckIcon, TriangleAlertIcon, TruckIcon } from 'lucide-react';
+import { CameraIcon, ClipboardCheckIcon, TriangleAlertIcon } from 'lucide-react';
 import { PageHeader } from '../components/shell/PageHeader';
 import { Card, Metric, SectionHeader } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';

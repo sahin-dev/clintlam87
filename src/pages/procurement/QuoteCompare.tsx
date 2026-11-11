@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   CheckIcon,
@@ -98,7 +98,7 @@ export function QuoteCompare() {
 
       {/* Decision framing — the trade-off, stated before any numbers. */}
       <Panel className="mb-5 overflow-hidden">
-        <TitleBlock label="The trade-off" reference={`${request.lines.length} MATERIAL LINES`} />
+        <TitleBlock label="The trade-off" reference={`${request.lines.length} material lines`} />
         <div className="grid grid-cols-2 gap-4 px-4 py-3.5 sm:grid-cols-4">
           <Measured label="Price spread" value={currency(spread)} note="Highest vs lowest bid" size="sm" />
           <Measured label="Schedule spread" value={`${daySpread} days`} note="Fastest vs slowest" size="sm" />

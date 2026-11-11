@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckIcon, MinusIcon } from 'lucide-react';
 import { Panel, SpecLabel, Measured, TickRule, WorkHeading } from '../../components/smpro/Primitives';
 import { PanelSection, UsageMeter } from '../../components/admin/Records';
-import { Cell, ListToolbar, RecordTable, Row } from '../../components/supplier/Records';
+import { ListToolbar } from '../../components/supplier/Records';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { useAdmin } from '../../contexts/AdminContext';
@@ -154,7 +154,7 @@ export function Subscriptions() {
               label={`${plan.name} · $${plan.price.toLocaleString()}/mo`}
               title={o.name}
               reference={
-              o.subscription ? `RENEWS ${o.subscription.renews.toUpperCase()}` : 'NO SUBSCRIPTION RECORD'
+              o.subscription ? `Renews ${o.subscription.renews}` : 'No subscription record'
               }
               action={
               <div className="flex items-center gap-2">
@@ -189,7 +189,7 @@ export function Subscriptions() {
                   <p className="measure mt-1 text-[10.5px] text-ink-400">
                     {Object.keys(o.overrides).length ?
                     `${Object.keys(o.overrides).length} ENTITLEMENT OVERRIDES` :
-                    'FOLLOWS THE PLAN'}
+                    'Follows the plan'}
                   </p>
                 </div>
               </div>
@@ -269,7 +269,7 @@ export function Entitlements() {
                     
                       {o.name}
                       <span className="measure mt-0.5 block text-[10.5px] font-normal text-ink-400">
-                        {o.planId ? PLAN_BY_ID[o.planId].name.toUpperCase() : 'VIA SUPPLIER LICENCE'}
+                        {o.planId ? PLAN_BY_ID[o.planId].name : 'Via supplier licence'}
                       </span>
                     </button>
                   </td>

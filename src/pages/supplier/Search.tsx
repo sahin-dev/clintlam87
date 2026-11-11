@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowRightIcon, SearchIcon } from 'lucide-react';
 import { EmptyState } from '../../components/ui/Feedback';
@@ -40,7 +40,7 @@ export function SupplierSearch() {
     const match = (...parts: (string | undefined)[]) =>
     parts.filter(Boolean).join(' ').toLowerCase().includes(q);
 
-    return [
+    return ([
     {
       kind: 'Builders',
       permission: 'customers.view',
@@ -148,7 +148,7 @@ export function SupplierSearch() {
         detail: `${customerName(c.customerId)} · ${c.status}`,
         to: `/supplier/service/${c.id}`
       }))
-    }].
+    }] as Group[]).
 
     filter((g) => can(g.permission) && g.hits.length > 0).
     map((g) => ({ ...g, hits: g.hits.slice(0, 6) }));

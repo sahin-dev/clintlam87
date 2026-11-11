@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { CheckIcon, SearchIcon, TriangleAlertIcon } from 'lucide-react';
 import { DrawingSheet, SheetDiscipline } from '../../types/takeoff';

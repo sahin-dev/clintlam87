@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
+import { RouteSuspense } from '../app/RouteLoading';
 import { motion } from 'framer-motion';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
@@ -29,7 +30,9 @@ export function AppShell() {
             transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}
             className={fullBleed ? 'h-full' : 'page-container pb-16'}>
             
-            <Outlet />
+            <RouteSuspense>
+              <Outlet />
+            </RouteSuspense>
           </motion.div>
         </main>
       </div>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowRightIcon, ClipboardCheckIcon, PackageIcon, ReceiptIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
@@ -41,12 +41,17 @@ const NEXT_STATUS: Partial<Record<SalesOrderStatus, {to: SalesOrderStatus;label:
 };
 
 export function SupplierOrders() {
+  const { can } = useSupplier();
+  if (!can('order.view')) return <Denied module="Sales orders" />;
+  return <SupplierOrdersView />;
+}
+
+function SupplierOrdersView() {
   const navigate = useNavigate();
-  const { orders, can } = useSupplier();
+  const { orders } = useSupplier();
   const [tab, setTab] = useState('open');
   const [query, setQuery] = useState('');
 
-  if (!can('order.view')) return <Denied module="Sales orders" />;
 
   const filtered = useMemo(() => {
     const byTab = orders.filter((o) =>

@@ -1,12 +1,14 @@
-export default {content: [
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
   './index.html',
   './src/**/*.{js,ts,jsx,tsx}'
 ],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
+        sans: ['"Inter Variable"', 'Inter', 'ui-sans-serif', 'system-ui', '-apple-system', '"Segoe UI"', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
       },
       /**
        * Four weights, one meaning each. The scale is deliberately retuned so
@@ -57,7 +59,7 @@ export default {content: [
         paper: '#FFFFFF',
         positive: { 50: '#ECFDF3', 100: '#D1FADF', 500: '#12A150', 600: '#0E8A44', 700: '#0A6C36' },
         info: { 50: '#EFF6FF', 100: '#DBEAFE', 500: '#2563EB', 600: '#1D4ED8', 700: '#1E40AF' },
-        caution: { 50: '#FFFBEB', 100: '#FEF3C7', 500: '#D97706', 600: '#B45309', 700: '#92400E' },
+        caution: { 50: '#FFFBEB', 100: '#FEF3C7', 500: '#D97706', 600: '#B45309', 700: '#92400E', 800: '#78350F' },
         danger: { 50: '#FEF2F2', 100: '#FEE2E2', 500: '#DC2626', 600: '#B91C1C', 700: '#991B1B' },
         violet: { 50: '#F5F3FF', 100: '#EDE9FE', 500: '#7C3AED', 600: '#6D28D9' },
       },

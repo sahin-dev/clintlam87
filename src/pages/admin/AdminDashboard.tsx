@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Panel, SpecLabel, Measured, TickRule, WorkHeading } from '../../components/smpro/Primitives';
 import { AttentionRow, PanelSection, StateDot } from '../../components/admin/Records';
@@ -85,7 +84,7 @@ export function AdminDashboard() {
           <PanelSection
             label="Needs the platform team"
             title="Attention required"
-            reference={`${failedJobs.length + openSync.length + suspended.length + escalated.length + liveIncidents.length} ITEMS`}>
+            reference={`${failedJobs.length + openSync.length + suspended.length + escalated.length + liveIncidents.length} items`}>
             
             <ul>
               {liveIncidents.map((i) =>
@@ -167,7 +166,7 @@ export function AdminDashboard() {
 
           <div className="mt-5">
             <WorkHeading label="Live" title="AI processing" count={`${running} running`} />
-            <PanelSection label="Run monitor" reference="AUTO-REFRESHING">
+            <PanelSection label="Run monitor" reference="Auto-refreshing">
               <ul className="divide-y divide-ink-100">
                 {aiJobs.
                 filter((j) => ['Processing', 'Queued', 'Retrying'].includes(j.status)).
@@ -229,7 +228,7 @@ export function AdminDashboard() {
                     <span className="block text-[12.5px] leading-snug text-ink-700">{a.label}</span>
                     {a.org &&
                   <span className="measure mt-0.5 block text-[10.5px] text-ink-400">
-                        {orgName(a.org).toUpperCase()}
+                        {orgName(a.org)}
                       </span>
                   }
                   </span>

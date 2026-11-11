@@ -18,7 +18,6 @@ import {
 import { permissionsFor } from '../utils/rbac';
 import { useExchange, useExchangeSubscription } from './ExchangeContext';
 import { ExchangeEvent, PARTNERSHIP, isPartnerSupplier, nextId } from '../data/interop';
-import { useScreenInit } from '../useScreenInit.js';
 import { organization, team, currentUserId } from '../data/organization';
 import { projects as seedProjects, planSets as seedPlans, takeoffs as seedTakeoffs } from '../data/projects';
 import {
@@ -116,14 +115,7 @@ interface AppState {
 const AppContext = createContext<AppState | null>(null);
 
 export function AppProvider({ children }: {children: React.ReactNode;}) {
-  const screenInit = useScreenInit();
-  /* Screens previews of in-app routes start signed in unless the screen
-     explicitly models an authentication step. */
-  const previewing =
-  typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('mp_screen');
   const [authed, setAuthed] = useState(() => {
-    if (typeof screenInit.authed === 'boolean') return screenInit.authed;
-    if (previewing) return true;
     try {
       return window.localStorage.getItem('smpro.authenticated') === 'true';
     } catch {

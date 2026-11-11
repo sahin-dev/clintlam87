@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { CreditCardIcon, RotateCcwIcon } from 'lucide-react';
 import { PageHeader } from '../../components/shell/PageHeader';
 import { Card, Metric, SectionHeader } from '../../components/ui/Card';

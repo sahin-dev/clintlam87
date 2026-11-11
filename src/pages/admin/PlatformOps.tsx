@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AlertTriangleIcon, PlugIcon, RotateCcwIcon } from 'lucide-react';
+import { PlugIcon, RotateCcwIcon } from 'lucide-react';
 import { Panel, SpecLabel, Measured, TickRule, WorkHeading } from '../../components/smpro/Primitives';
 import { PanelSection, StateDot } from '../../components/admin/Records';
 import { Cell, RecordHeader, RecordTable, Row } from '../../components/supplier/Records';
@@ -79,7 +79,7 @@ export function Integrations() {
                     <div className="flex items-center gap-2">
                       <Badge tone="danger">{e.entity}</Badge>
                       <span className="measure text-[11px] text-ink-400">
-                        {e.id} · {e.adapter} · {orgName(e.orgId).toUpperCase()}
+                        {e.id} · {e.adapter} · {orgName(e.orgId)}
                       </span>
                     </div>
                     <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-700">{e.message}</p>
@@ -109,7 +109,7 @@ export function Integrations() {
           key={i.id}
           label={i.adapter}
           title={orgName(i.orgId)}
-          reference={`LAST SYNC ${i.lastSync.toUpperCase()}`}
+          reference={`Last sync ${i.lastSync}`}
           action={<Badge tone={SYNC_TONE(i.status)}>{i.status}</Badge>}>
           
             {i.entities.length === 0 ?
@@ -291,7 +291,7 @@ export function SystemHealth() {
                 {s.responseMs ? `${s.responseMs}ms` : '—'}
               </p>
               <p className="measure mt-1.5 text-[10.5px] text-ink-400">
-                {s.errorRate}% ERRORS · CHECKED {s.checked.toUpperCase()}
+                {s.errorRate}% errors · checked {s.checked}
               </p>
               <p className="mt-2 text-[12px] leading-snug text-ink-500">{s.note}</p>
             </div>
@@ -347,7 +347,7 @@ function IncidentRow({ incident, onOpen }: {incident: Incident;onOpen: () => voi
             </div>
             <p className="mt-1.5 text-[14px] font-semibold text-ink-900">{incident.title}</p>
             <p className="measure mt-0.5 text-[11px] text-ink-400">
-              {incident.service.toUpperCase()} · STARTED {incident.started.toUpperCase()} ·{' '}
+              {incident.service} · started {incident.started} ·{' '}
               {incident.affectedOrgs.length} ORGANIZATIONS
             </p>
           </div>
@@ -380,7 +380,7 @@ export function IncidentDetail() {
           backTo="/admin/health"
           eyebrow={`Incident · ${incident.id}`}
           title={incident.title}
-          reference={`${incident.service.toUpperCase()} · STARTED ${incident.started.toUpperCase()}`}
+          reference={`${incident.service} · started ${incident.started}`}
           status={
           <>
               <Badge tone={incident.severity === 'Critical' ? 'danger' : 'caution'}>{incident.severity}</Badge>
@@ -428,7 +428,7 @@ export function IncidentDetail() {
                   <span className="measure w-[76px] shrink-0 text-[11px] text-ink-400">{t.at}</span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-[12.5px] leading-snug text-ink-700">{t.label}</span>
-                    <span className="measure mt-0.5 block text-[10.5px] text-ink-400">{t.by.toUpperCase()}</span>
+                    <span className="measure mt-0.5 block text-[10.5px] text-ink-400">{t.by}</span>
                   </span>
                 </li>
               )}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BellIcon, SettingsIcon } from 'lucide-react';
 import { PageHeader } from '../components/shell/PageHeader';
